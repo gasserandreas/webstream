@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 
+import { Switch, Route, useRouteMatch } from 'react-router-dom';
+
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import IFrame from '../../ui/iFrame';
@@ -58,7 +60,7 @@ const LINKS = [
   'https://gemmi.roundshot.com',
 ];
 
-export default function Index() {
+function IndexPage() {
   const classes = useStyles();
 
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -129,7 +131,7 @@ export default function Index() {
         clearInterval(toggleIntervalRef.current);
       }
     }
-  }, []);
+  }, [handleIndexInterval]);
 
   const { even, odd } = indices;
   const visibleFrame = visibleFrameRef.current;
@@ -151,5 +153,14 @@ export default function Index() {
           />
       </div>
     </div>
+  );
+}
+
+export default function IndexHandler() {
+  const { path } = useRouteMatch();
+  return (
+    <Switch>
+      <Route exact path={path} component={IndexPage} />
+    </Switch>
   );
 }

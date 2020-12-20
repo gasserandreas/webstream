@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
+import { withRouter, Switch, Route } from 'react-router-dom';
 
-import Home from './pages/home';
+import * as PATHS from './constants/paths';
+import Notfound from './pages/misc/not-found';
+
+// import Home from './pages/home';
+const Home = lazy(() => import('./pages/home'));
+const Settings = lazy(() => import('./pages/settings'));
+const NotFound = lazy(() => import('./pages/misc/not-found'));
 
 function App() {
   return (
-    <Home />
+   <Suspense fallback={null}>
+     <Switch>
+       <Route exact path={PATHS.INDEX} component={Home} />
+       <Route path={PATHS.SETTINGS} component={Settings} />
+       <Route path="*" component={NotFound} />
+     </Switch>
+   </Suspense>
   );
 }
 
-export default App;
+export default withRouter(App);
