@@ -1,9 +1,7 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-interface NotFoundProps extends RouteComponentProps {}
-
-export default function Notfound(props: NotFoundProps) {
+const Notfound: FunctionComponent<RouteComponentProps> = (props) => {
   const { location } = props;
   return (
     <div>
@@ -11,4 +9,6 @@ export default function Notfound(props: NotFoundProps) {
       <code>{location.pathname}</code>
     </div>
   );
-}
+};
+
+export default Notfound;

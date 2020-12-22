@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import {
   Switch,
   Route,
@@ -6,21 +6,23 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 
-interface SettingsProps extends RouteComponentProps {}
+interface SettingsProps extends RouteComponentProps {} // eslint-disable-line
 
-export function SettingsPage(props: SettingsProps) {
+const SettingsPage: FunctionComponent<SettingsProps> = () => {
   return (
     <div>
       <strong>Settings Page</strong>
     </div>
   );
-}
+};
 
-export default function IndexHandler() {
+const IndexHandler: FunctionComponent<RouteComponentProps> = () => {
   const { path } = useRouteMatch();
   return (
     <Switch>
       <Route path={path} component={SettingsPage} />
     </Switch>
   );
-}
+};
+
+export default IndexHandler;
