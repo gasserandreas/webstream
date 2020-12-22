@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 
 interface IFramePropBase {
   link: string;
@@ -20,12 +20,12 @@ function generateIFrame(
   const attrString = Object.entries(newAttributes)
     .map(([key, value]) => {
       let valueString = value;
-      if (typeof value !== "string") {
+      if (typeof value !== 'string') {
         valueString = `"${value}"`;
       }
       return `${key}=${valueString}`;
     })
-    .join(" ");
+    .join(' ');
 
   return `<iframe ${attrString}><iframe>`;
 }

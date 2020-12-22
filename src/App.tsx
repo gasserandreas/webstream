@@ -1,12 +1,12 @@
-import React, { lazy, Suspense } from "react";
-import { withRouter, Switch, Route } from "react-router-dom";
+import React, { lazy, Suspense } from 'react';
+import { withRouter, Switch, Route } from 'react-router-dom';
 
-import * as PATHS from "./constants/paths";
+import * as PATHS from './constants/paths';
 
 // import Home from './pages/home';
-const Home = lazy(() => import("./pages/home"));
-const Settings = lazy(() => import("./pages/settings"));
-const NotFound = lazy(() => import("./pages/misc/not-found"));
+const Home = lazy(() => import('./pages/home'));
+const Settings = lazy(() => import('./pages/settings'));
+const NotFound = lazy(() => import('./pages/misc/not-found'));
 
 function App() {
   return (

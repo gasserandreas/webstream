@@ -4,18 +4,18 @@ import React, {
   useState,
   useCallback,
   FunctionComponent,
-} from "react";
+} from 'react';
 
 import {
   Switch,
   Route,
   useRouteMatch,
   RouteComponentProps,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-import IFrame from "../../ui/iFrame";
+import IFrame from '../../ui/iFrame';
 
 // type definitions
 type SizeDefinition = Optional<{
@@ -29,8 +29,8 @@ type Indices = {
 };
 
 enum VisibleFrame {
-  EVEN = "even",
-  ODD = "odd",
+  EVEN = 'even',
+  ODD = 'odd',
 }
 
 // interval definitions
@@ -40,12 +40,12 @@ const INTERVAL_TIME_DELAY = 5000;
 const useStyles = makeStyles(() =>
   createStyles({
     wrapper: {
-      width: "100%",
-      height: "100%",
-      position: "relative",
+      width: '100%',
+      height: '100%',
+      position: 'relative',
     },
     frame: {
-      position: "absolute",
+      position: 'absolute',
       top: 0,
       left: 0,
       right: 0,
@@ -67,10 +67,10 @@ function getSizeForDiv(div: HTMLDivElement): SizeDefinition {
 }
 
 const LINKS = [
-  "https://buochs.roundshot.com",
-  "https://kaeserstatt.roundshot.com",
-  "https://grindelwaldbus.roundshot.com",
-  "https://gemmi.roundshot.com",
+  'https://buochs.roundshot.com',
+  'https://kaeserstatt.roundshot.com',
+  'https://grindelwaldbus.roundshot.com',
+  'https://gemmi.roundshot.com',
 ];
 
 const IndexPage: FunctionComponent = () => {
@@ -126,7 +126,7 @@ const IndexPage: FunctionComponent = () => {
     }, INTERVAL_TIME);
 
     setTimeout(() => {
-      console.log("create event handler..."); // eslint-disable-line no-console
+      console.log('create event handler...'); // eslint-disable-line no-console
       indexIntervalRef.current = setInterval(() => {
         setIndices((prevIndices) => handleIndexInterval(prevIndices));
       }, INTERVAL_TIME);
@@ -137,12 +137,12 @@ const IndexPage: FunctionComponent = () => {
 
     return () => {
       if (indexIntervalRef.current) {
-        console.log("clear indexIntervalRef interval"); // eslint-disable-line no-console
+        console.log('clear indexIntervalRef interval'); // eslint-disable-line no-console
         clearInterval(indexIntervalRef.current);
       }
 
       if (toggleIntervalRef.current) {
-        console.log("clear toggleIntervalRef interval"); // eslint-disable-line no-console
+        console.log('clear toggleIntervalRef interval'); // eslint-disable-line no-console
         clearInterval(toggleIntervalRef.current);
       }
     };

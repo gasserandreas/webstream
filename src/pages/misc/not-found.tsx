@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import React, { FunctionComponent } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 const Notfound: FunctionComponent<RouteComponentProps> = (props) => {
   const { location } = props;
