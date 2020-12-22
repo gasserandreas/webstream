@@ -1,5 +1,10 @@
-import React from 'react';
-import { Switch, Route, RouteComponentProps, useRouteMatch } from 'react-router-dom';
+import React from "react";
+import {
+  Switch,
+  Route,
+  RouteComponentProps,
+  useRouteMatch,
+} from "react-router-dom";
 
 interface SettingsProps extends RouteComponentProps {}
 

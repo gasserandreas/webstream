@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface iFramePropBase {
   link: string;
@@ -8,7 +8,10 @@ interface iFramePropBase {
 
 export type iFrameProps = iFramePropBase;
 
-function generateIFrame(src: string, attrs: ObjectMap<string | number>): string {
+function generateIFrame(
+  src: string,
+  attrs: ObjectMap<string | number>
+): string {
   const newAttributes = {
     ...attrs,
     src,
@@ -17,13 +20,13 @@ function generateIFrame(src: string, attrs: ObjectMap<string | number>): string 
   const attrString = Object.entries(newAttributes)
     .map(([key, value]) => {
       let valueString = value;
-      if (typeof value !== 'string') {
+      if (typeof value !== "string") {
         valueString = `"${value}"`;
       }
       return `${key}=${valueString}`;
     })
-    .join(' ');
-  
+    .join(" ");
+
   return `<iframe ${attrString}><iframe>`;
 }
 
@@ -34,21 +37,14 @@ export default function iFrame(props: iFrameProps) {
     return null;
   }
 
-  const iFrameHTML = generateIFrame(
-    link,
-    {
-      width,
-      height,
-    }
-  );
+  const iFrameHTML = generateIFrame(link, {
+    width,
+    height,
+  });
 
-  const iframe = () => {
-    return {
-      __html: iFrameHTML,
-    };
-  }
+  const iframe = () => ({
+    __html: iFrameHTML,
+  });
 
-  return (
-    <div dangerouslySetInnerHTML={iframe()} />
-  );
+  return <div dangerouslySetInnerHTML={iframe()} />;
 }
