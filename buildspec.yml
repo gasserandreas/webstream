@@ -22,10 +22,10 @@ phases:
     commands:
       - echo "Start linting"
       - yarn run lint
-      - echo "Start test"
-      - CI=true yarn test
-      - echo "Start coverage"
-      - CI=true yarn run test:coverage
+      # - echo "Start test"
+      # - CI=true yarn test
+      # - echo "Start coverage"
+      # - CI=true yarn run test:coverage
       - echo "Run Semantic Release"
       - GH_TOKEN="$GH_ACCESS_TOKEN" npx semantic-release
       - echo "Build started on $CODEBUILD_START_TIME"
