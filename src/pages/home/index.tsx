@@ -1,6 +1,17 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+  FunctionComponent,
+} from "react";
 
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  useRouteMatch,
+  RouteComponentProps,
+} from "react-router-dom";
 
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 
@@ -62,12 +73,12 @@ const LINKS = [
   "https://gemmi.roundshot.com",
 ];
 
-function IndexPage() {
+const IndexPage: FunctionComponent = () => {
   const classes = useStyles();
 
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const indexIntervalRef = useRef<any>();
-  const toggleIntervalRef = useRef<any>();
+  const indexIntervalRef = useRef<ReturnType<typeof setInterval>>();
+  const toggleIntervalRef = useRef<ReturnType<typeof setInterval>>();
 
   const [indices, setIndices] = useState<Indices>({ even: 0, odd: 1 });
 
@@ -84,8 +95,7 @@ function IndexPage() {
     return nextIndex;
   }
 
-  function handleIndexInterval(prevIndices: Indices): Indices {
-    console.log("handleIndexInterval");
+  const handleIndexInterval = useCallback((prevIndices: Indices) => {
     const newIndices = { ...prevIndices };
 
     if (visibleFrameRef.current === VisibleFrame.EVEN) {
@@ -95,7 +105,7 @@ function IndexPage() {
     }
 
     return newIndices;
-  }
+  }, []);
 
   // get size
   useEffect(() => {
@@ -116,7 +126,7 @@ function IndexPage() {
     }, INTERVAL_TIME);
 
     setTimeout(() => {
-      console.log("create event handler...");
+      console.log("create event handler..."); // eslint-disable-line no-console
       indexIntervalRef.current = setInterval(() => {
         setIndices((prevIndices) => handleIndexInterval(prevIndices));
       }, INTERVAL_TIME);
@@ -127,12 +137,12 @@ function IndexPage() {
 
     return () => {
       if (indexIntervalRef.current) {
-        console.log("clear indexIntervalRef interval");
+        console.log("clear indexIntervalRef interval"); // eslint-disable-line no-console
         clearInterval(indexIntervalRef.current);
       }
 
       if (toggleIntervalRef.current) {
-        console.log("clear toggleIntervalRef interval");
+        console.log("clear toggleIntervalRef interval"); // eslint-disable-line no-console
         clearInterval(toggleIntervalRef.current);
       }
     };
@@ -161,13 +171,15 @@ function IndexPage() {
       </div>
     </div>
   );
-}
+};
 
-export default function IndexHandler() {
+const IndexHandler: FunctionComponent<RouteComponentProps> = () => {
   const { path } = useRouteMatch();
   return (
     <Switch>
       <Route exact path={path} component={IndexPage} />
     </Switch>
   );
-}
+};
+
+export default IndexHandler;

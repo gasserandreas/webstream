@@ -1,12 +1,12 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 
-interface iFramePropBase {
+interface IFramePropBase {
   link: string;
   width?: number;
   height?: number;
 }
 
-export type iFrameProps = iFramePropBase;
+export type IFrameProps = IFramePropBase;
 
 function generateIFrame(
   src: string,
@@ -30,7 +30,7 @@ function generateIFrame(
   return `<iframe ${attrString}><iframe>`;
 }
 
-export default function iFrame(props: iFrameProps) {
+const iFrame: FunctionComponent<IFrameProps> = (props) => {
   const { link, width, height } = props;
 
   if (!width || !height) {
@@ -46,5 +46,7 @@ export default function iFrame(props: iFrameProps) {
     __html: iFrameHTML,
   });
 
-  return <div dangerouslySetInnerHTML={iframe()} />;
-}
+  return <div dangerouslySetInnerHTML={iframe()} />; // eslint-disable-line react/no-danger
+};
+
+export default iFrame;
