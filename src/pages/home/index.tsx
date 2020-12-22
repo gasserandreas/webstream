@@ -1,8 +1,10 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from "react";
 
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { Switch, Route, useRouteMatch } from "react-router-dom";
 
-import IFrame from '../../ui/iFrame';
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+
+import IFrame from "../../ui/iFrame";
 
 // type definitions
 type SizeDefinition = Optional<{
@@ -16,28 +18,30 @@ type Indices = {
 };
 
 enum VisibleFrame {
-  EVEN = 'even',
-  ODD = 'odd',
-};
+  EVEN = "even",
+  ODD = "odd",
+}
 
 // interval definitions
-const INTERVAL_TIME = 30 * 1000; 
+const INTERVAL_TIME = 30 * 1000;
 const INTERVAL_TIME_DELAY = 5000;
 
-const useStyles = makeStyles(() => createStyles({
-  wrapper: {
-    width: '100%',
-    height: '100%',
-    position: 'relative',
-  },
-  frame: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-}));
+const useStyles = makeStyles(() =>
+  createStyles({
+    wrapper: {
+      width: "100%",
+      height: "100%",
+      position: "relative",
+    },
+    frame: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    },
+  })
+);
 
 function getSizeForDiv(div: HTMLDivElement): SizeDefinition {
   if (!div) {
@@ -52,20 +56,20 @@ function getSizeForDiv(div: HTMLDivElement): SizeDefinition {
 }
 
 const LINKS = [
-  'https://buochs.roundshot.com',
-  'https://kaeserstatt.roundshot.com',
-  'https://grindelwaldbus.roundshot.com',
-  'https://gemmi.roundshot.com',
+  "https://buochs.roundshot.com",
+  "https://kaeserstatt.roundshot.com",
+  "https://grindelwaldbus.roundshot.com",
+  "https://gemmi.roundshot.com",
 ];
 
-export default function Index() {
+function IndexPage() {
   const classes = useStyles();
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const indexIntervalRef = useRef<any>();
   const toggleIntervalRef = useRef<any>();
 
-  const [indices, setIndices] = useState<Indices>({ even: 0, odd: 1 })
+  const [indices, setIndices] = useState<Indices>({ even: 0, odd: 1 });
 
   const [sizes, setSizes] = useState<SizeDefinition | null>(null);
   const visibleFrameRef = useRef(VisibleFrame.EVEN);
@@ -81,7 +85,7 @@ export default function Index() {
   }
 
   function handleIndexInterval(prevIndices: Indices): Indices {
-    console.log('handleIndexInterval');
+    console.log("handleIndexInterval");
     const newIndices = { ...prevIndices };
 
     if (visibleFrameRef.current === VisibleFrame.EVEN) {
@@ -105,51 +109,65 @@ export default function Index() {
   useEffect(() => {
     // handle index change
     toggleIntervalRef.current = setInterval(() => {
-      visibleFrameRef.current = visibleFrameRef.current === VisibleFrame.EVEN ? VisibleFrame.ODD : VisibleFrame.EVEN;
+      visibleFrameRef.current =
+        visibleFrameRef.current === VisibleFrame.EVEN
+          ? VisibleFrame.ODD
+          : VisibleFrame.EVEN;
     }, INTERVAL_TIME);
 
     setTimeout(() => {
-      console.log('create event handler...');
+      console.log("create event handler...");
       indexIntervalRef.current = setInterval(() => {
         setIndices((prevIndices) => handleIndexInterval(prevIndices));
       }, INTERVAL_TIME);
 
       // change first index
       setIndices((prevIndices) => handleIndexInterval(prevIndices));
-    }, INTERVAL_TIME - INTERVAL_TIME_DELAY)
+    }, INTERVAL_TIME - INTERVAL_TIME_DELAY);
 
     return () => {
       if (indexIntervalRef.current) {
-        console.log('clear indexIntervalRef interval');
+        console.log("clear indexIntervalRef interval");
         clearInterval(indexIntervalRef.current);
       }
 
       if (toggleIntervalRef.current) {
-        console.log('clear toggleIntervalRef interval');
+        console.log("clear toggleIntervalRef interval");
         clearInterval(toggleIntervalRef.current);
       }
-    }
-  }, []);
+    };
+  }, [handleIndexInterval]);
 
   const { even, odd } = indices;
   const visibleFrame = visibleFrameRef.current;
 
   return (
     <div className={classes.wrapper} ref={wrapperRef}>
-      <div className={classes.frame} style={{ opacity: visibleFrame === VisibleFrame.EVEN ? 1 : 0 }}>
-      <IFrame
-        link={LINKS[even]}
-        width={sizes?.width}
-        height={sizes?.height}
-      />
-      </div>
-      <div className={classes.frame} style={{ opacity: visibleFrame === VisibleFrame.ODD ? 1 : 0 }}>
+      <div
+        className={classes.frame}
+        style={{ opacity: visibleFrame === VisibleFrame.EVEN ? 1 : 0 }}
+      >
         <IFrame
-          link={LINKS[odd]}
+          link={LINKS[even]}
           width={sizes?.width}
           height={sizes?.height}
-          />
+        />
+      </div>
+      <div
+        className={classes.frame}
+        style={{ opacity: visibleFrame === VisibleFrame.ODD ? 1 : 0 }}
+      >
+        <IFrame link={LINKS[odd]} width={sizes?.width} height={sizes?.height} />
       </div>
     </div>
+  );
+}
+
+export default function IndexHandler() {
+  const { path } = useRouteMatch();
+  return (
+    <Switch>
+      <Route exact path={path} component={IndexPage} />
+    </Switch>
   );
 }
