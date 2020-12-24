@@ -10,13 +10,13 @@ import { Provider } from 'react-redux';
 import App from './App';
 import theme from './theme';
 
-import configureStore from './config/redux/configureStore';
+import store from './config/redux/store';
 
 import reportWebVitals from './reportWebVitals';
 
 // create store object
-const initialStore = {};
-const store = configureStore(initialStore);
+// const initialStore = {};
+// const store = configureStore(initialStore);
 
 ReactDOM.render(
   <React.StrictMode>

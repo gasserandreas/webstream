@@ -2,7 +2,7 @@ declare type Optional<T> = T | null;
 
 declare type ObjectMap<T> = { [key: string]: T };
 
-declare module "ric-shim";
+declare module 'ric-shim';
 
 declare global {
   interface Window {
