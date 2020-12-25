@@ -1,8 +1,8 @@
 import { RootAction, RootState, Services } from 'MyTypes';
 import { combineReducers } from 'redux';
+import { createAction, ActionType, createReducer } from 'typesafe-actions';
 import { map } from 'rxjs/operators';
 import { Epic, ofType } from 'redux-observable';
-import { createAction, ActionType, createReducer } from 'typesafe-actions';
 
 import { supportsLocalstorage } from '../../services/local-storage-service';
 
