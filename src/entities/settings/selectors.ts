@@ -10,3 +10,23 @@ export const settingsIntervalSelector = createSelector(
   settingsSelector,
   (state: SettingsState) => state.timeInterval
 );
+
+export const settingsStreamsSelector = createSelector(
+  settingsSelector,
+  (state: SettingsState) => state.streams
+);
+
+export const settingsStreamsByIdSelector = createSelector(
+  settingsStreamsSelector,
+  ({ byId }) => byId
+);
+
+export const settingsStreamsIdsSelector = createSelector(
+  settingsStreamsSelector,
+  ({ ids }) => ids
+);
+
+export const settingsStreamsOrderedSelector = createSelector(
+  settingsStreamsSelector,
+  ({ ordered }) => ordered
+);
