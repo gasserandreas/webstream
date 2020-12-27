@@ -1,26 +1,35 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
-import App from "./App";
-import theme from "./theme";
+import App from './App';
+import theme from './theme';
 
-import reportWebVitals from "./reportWebVitals";
+import store from './config/redux/store';
+
+import reportWebVitals from './reportWebVitals';
+
+// create store object
+// const initialStore = {};
+// const store = configureStore(initialStore);
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

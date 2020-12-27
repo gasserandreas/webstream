@@ -6,6 +6,7 @@
   "author": "Andreas Gasser <gasserandreas@users.noreply.github.com>",
   "dependencies": {
     "@material-ui/core": "^4.11.2",
+    "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -15,11 +16,20 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.6",
     "clsx": "^1.1.1",
+    "lodash": "^4.17.20",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "redux": "^4.0.5",
+    "redux-observable": "^1.2.0",
+    "reselect": "^4.0.0",
+    "ric-shim": "^1.0.0",
+    "rxjs": "^6.6.3",
+    "typesafe-actions": "^5.1.0",
     "typescript": "^4.0.3",
+    "uuid": "^8.3.2",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -27,8 +37,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/**/*.ts{,x}",
-    "lint": "tsc --noEmit && eslint src/**/*.ts{,x}"
+    "format": "CI=true prettier --write src/**/*.ts{,x}",
+    "lint": "CI=true tsc --noEmit && eslint src/**/*.ts{,x}"
   },
   "eslintConfig": {
     "extends": [
@@ -54,6 +64,10 @@
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/npm": "^7.0.9",
     "@semantic-release/release-notes-generator": "^9.0.1",
+    "@types/es6-shim": "^0.31.41",
+    "@types/lodash": "^4.14.165",
+    "@types/react-redux": "^7.1.12",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
     "eslint-config-airbnb": "18.2.1",

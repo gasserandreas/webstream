@@ -1,2 +1,2 @@
-export const INDEX = "/";
-export const SETTINGS = "/settings";
+export const INDEX = '/';
+export const SETTINGS = '/settings';

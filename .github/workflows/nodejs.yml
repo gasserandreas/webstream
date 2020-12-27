@@ -8,11 +8,13 @@ on:
     branches:
       - '*'         # matches every branch
       - '*/*'       # matches every branch containing a single '/'
+      - '*/*/*'     # matches every branch containing double '/'
       - '!master'   # excludes master
   pull_request:
     branches:
       - '*'         # matches every branch
       - '*/*'       # matches every branch containing a single '/'
+      - '*/*/*'     # matches every branch containing double '/'
       - '!master'   # excludes master
 
 jobs:

@@ -1,10 +1,10 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 import {
   Switch,
   Route,
   RouteComponentProps,
   useRouteMatch,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 interface SettingsProps extends RouteComponentProps {} // eslint-disable-line
 
