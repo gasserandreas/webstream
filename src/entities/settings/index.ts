@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 import { createAction, ActionType, createReducer } from 'typesafe-actions';
 
 import { Stream, Id } from '../models';
-import { removeIdItem } from './utils';
+import { removeIdItem, addIdItem } from './utils';
 
 // action constants
 const SET_TIME_INTERVAL = 'settings/setInterval';
@@ -67,7 +67,7 @@ export type SettingsAction = ActionType<typeof settingsActions>;
  */
 type TimeIntervalState = number;
 
-const timeIntervalInitialState = 10000;
+const timeIntervalInitialState = 30000;
 
 const timeIntervalReducer = createReducer<TimeIntervalState, SettingsAction>(
   timeIntervalInitialState
@@ -118,10 +118,8 @@ const idsReducerInitialState: Array<string> = [];
 const idsReducer = createReducer<StreamsIdsState, SettingsAction>(
   idsReducerInitialState
 )
-  .handleAction(
-    settingsActions.addStream,
-    (state, action) =>
-      [...new Set([...state, action.payload.id])] as Array<string>
+  .handleAction(settingsActions.addStream, (state, action) =>
+    addIdItem(state, action.payload.id)
   )
   .handleAction(settingsActions.removeStream, (state, action) =>
     removeIdItem(state, action.payload)
@@ -134,10 +132,8 @@ const orderedInitialState: Array<string> = [];
 const orderedReducer = createReducer<StreamsOrderedState, SettingsAction>(
   orderedInitialState
 )
-  .handleAction(
-    settingsActions.addStream,
-    (state, action) =>
-      [...new Set([...state, action.payload.id])] as Array<string>
+  .handleAction(settingsActions.addStream, (state, action) =>
+    addIdItem(state, action.payload.id)
   )
   .handleAction(settingsActions.removeStream, (state, action) =>
     removeIdItem(state, action.payload)
@@ -150,19 +146,19 @@ type StreamState = {
   readonly ordered: StreamsOrderedState;
 };
 
-const streamsReducer = combineReducers({
+const streamsReducer = combineReducers<StreamState, SettingsAction>({
   byId: byIdReducer,
   ids: idsReducer,
   ordered: orderedReducer,
 });
 
-export type AppState = {
+export type SettingsState = {
   readonly timeInterval: TimeIntervalState;
   readonly isRandomOrder: IsRandomOrderState;
-  readonly stream: StreamState;
+  readonly streams: StreamState;
 };
 
-export default combineReducers({
+export default combineReducers<SettingsState, SettingsAction>({
   timeInterval: timeIntervalReducer,
   isRandomOrder: isRandomOrderStateReducer,
   streams: streamsReducer,

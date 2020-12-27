@@ -11,6 +11,8 @@ import { appIdle } from './rootActions';
 import rootEpic from './rootEpic';
 import services from '../../services';
 
+import devInitialState from '../../entities/devInitialState';
+
 export const epicMiddleware = createEpicMiddleware<
   RootAction,
   RootAction,
@@ -28,7 +30,9 @@ const middlewares = [epicMiddleware];
 const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
 // rehydrate state on app start
-const initialState = {};
+// const initialState = {};
+const initialState =
+  process.env.NODE_ENV !== 'production' ? devInitialState : {};
 
 // create store
 const store = createStore(rootReducer, initialState, enhancer);
