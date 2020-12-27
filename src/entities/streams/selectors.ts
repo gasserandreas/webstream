@@ -10,4 +10,3 @@ export const indicesSelector = createSelector(
   streamsSelector,
   (streams) => streams.indices
 );
-
