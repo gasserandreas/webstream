@@ -1,3 +1,21 @@
+# [1.1.0](https://github.com/gasserandreas/webstream/compare/v1.0.0...v1.1.0) (2020-12-27)
+
+
+### Bug Fixes
+
+* fixed another format issue ([bf4eff3](https://github.com/gasserandreas/webstream/commit/bf4eff3de75e2fdee744e8c51284d77e4bb1c25c))
+
+
+### Features
+
+* **#1:** improved CI build ([0d61137](https://github.com/gasserandreas/webstream/commit/0d61137275fd08a5de53a2eacf76e77d5d51cc86)), closes [#1](https://github.com/gasserandreas/webstream/issues/1)
+* **#4:** added redux implementation ([9761f25](https://github.com/gasserandreas/webstream/commit/9761f251ff501b2c6689bfb53f28feba90ebc2d1)), closes [#4](https://github.com/gasserandreas/webstream/issues/4)
+* **#4:** added redux store ([57c57f4](https://github.com/gasserandreas/webstream/commit/57c57f4c40b3ec93d1a655926096b6c4817dd1ce)), closes [#4](https://github.com/gasserandreas/webstream/issues/4)
+* **#4:** added streams redux tree ([2434b64](https://github.com/gasserandreas/webstream/commit/2434b64cae6a93ff3ba4b9c2803dc320fd65bc17)), closes [#4](https://github.com/gasserandreas/webstream/issues/4)
+* **#4:** added typesafe, rxjs based redux ([09d8065](https://github.com/gasserandreas/webstream/commit/09d8065c13f04ad3a64d339fa69f88ae525394c3)), closes [#4](https://github.com/gasserandreas/webstream/issues/4)
+* **#4:** connected redux store ([f59b3e2](https://github.com/gasserandreas/webstream/commit/f59b3e2c9d996af993881f45326b49d4a051fba0)), closes [#4](https://github.com/gasserandreas/webstream/issues/4)
+* **#5:** added index page to redux store ([684b7ac](https://github.com/gasserandreas/webstream/commit/684b7acf6f18db467ead555ecf5892743d810f4e)), closes [#5](https://github.com/gasserandreas/webstream/issues/5)
+
 # 1.0.0 (2020-12-22)
 
 
