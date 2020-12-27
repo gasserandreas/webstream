@@ -1,3 +1,5 @@
+export default (): void => {};
+
 // import React, {
 //   useRef,
 //   useEffect,
