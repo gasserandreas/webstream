@@ -6,13 +6,21 @@ import {
   useRouteMatch,
   RouteComponentProps,
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import { streamsActions } from '../../entities/streams/index';
+import {
+  shouldRenderEvenSelector,
+  shouldRenderOddSelector,
+  shouldShowEvenSelector,
+  shouldShowOddSelector,
+  evenStreamSelector,
+  oddStreamSelector,
+} from '../../entities/streams/selectors';
 
-// import IFrame from '../../ui/iFrame';
+import IFrame from '../../ui/iFrame';
 
 // type definitions
 type SizeDefinition = Optional<{
@@ -53,6 +61,14 @@ const IndexPage: FunctionComponent = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
+
+  const shouldRenderEven = useSelector(shouldRenderEvenSelector);
+  const shouldRenderOdd = useSelector(shouldRenderOddSelector);
+  const shouldShowEven = useSelector(shouldShowEvenSelector);
+  const shouldShowOdd = useSelector(shouldShowOddSelector);
+  const evenStream = useSelector(evenStreamSelector);
+  const oddStream = useSelector(oddStreamSelector);
+
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [sizes, setSizes] = useState<SizeDefinition | null>(null);
 
@@ -82,9 +98,33 @@ const IndexPage: FunctionComponent = () => {
     }
   }, []);
 
+  function getOpacityStyles(visible: boolean) {
+    const opacity = visible ? 1 : 0;
+    return {
+      opacity,
+    };
+  }
+
   return (
     <div className={classes.wrapper} ref={wrapperRef}>
-      <div className={classes.frame}>Div....</div>
+      <div className={classes.frame} style={getOpacityStyles(shouldShowEven)}>
+        {(shouldRenderEven || shouldShowEven) && (
+          <IFrame
+            link={evenStream.href}
+            width={sizes?.width}
+            height={sizes?.height}
+          />
+        )}
+      </div>
+      <div className={classes.frame} style={getOpacityStyles(shouldShowOdd)}>
+        {(shouldRenderOdd || shouldShowOdd) && (
+          <IFrame
+            link={oddStream.href}
+            width={sizes?.width}
+            height={sizes?.height}
+          />
+        )}
+      </div>
     </div>
   );
 };

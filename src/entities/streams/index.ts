@@ -15,7 +15,8 @@ export enum ActiveFrame {
 }
 
 // constant definitions
-const ACTION_DELAY = 3000;
+const SET_ACTIVE_ACTION_DELAY = 3000;
+const RESET_PRELOAD_ACTION_DELAY = 5000;
 
 // action constants
 const START_STREAMS = 'streams/start';
@@ -104,8 +105,12 @@ const handleStreamsEpic: Epic<RootAction, RootAction, RootState, Services> = (
             nextActiveFrame === ActiveFrame.EVEN ? setEven : setOdd;
 
           return merge(
+            // set pre-load and next index
             of(setPreload(nextActiveFrame), setIndexAction(nextIndex)),
-            of(setActive(nextActiveFrame)).pipe(delay(ACTION_DELAY))
+            // change web stream after delay
+            of(setActive(nextActiveFrame)).pipe(delay(SET_ACTIVE_ACTION_DELAY)),
+            // reset preload
+            of(setPreload(null)).pipe(delay(RESET_PRELOAD_ACTION_DELAY))
           );
         })
       );
@@ -128,6 +133,15 @@ const activeReducer = createReducer<ActiveState, StreamsAction>(
 ).handleAction(streamsActions.setActive, (_, action) => action.payload);
 // .handleAction(streamsActions.startStreams, () => true)
 // .handleAction(streamsActions.endStreams, () => false);
+
+/**
+ * preload reducers
+ */
+type PreloadState = ActiveFrame | null;
+
+const preloadReducer = createReducer<PreloadState, StreamsAction>(
+  null
+).handleAction(streamsActions.setPreload, (_, action) => action.payload);
 
 /**
  * indices reducer
@@ -158,10 +172,12 @@ const indicesReducer = combineReducers<IndicesState, StreamsAction>({
 
 export type StreamsState = {
   readonly active: ActiveState;
+  readonly preload: ActiveState;
   readonly indices: IndicesState;
 };
 
 export default combineReducers<StreamsState, StreamsAction>({
   active: activeReducer,
+  preload: preloadReducer,
   indices: indicesReducer,
 });
