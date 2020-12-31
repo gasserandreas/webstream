@@ -2,10 +2,10 @@ import React, { FC, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
-// import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Switch from '@material-ui/core/Switch';
+import TextField from '@material-ui/core/TextField';
 
 import { createStyles, makeStyles } from '@material-ui/core';
 
@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) =>
     },
     linksSection: {
       margin: '2rem 0  1rem 0',
+    },
+    textField: {
+      width: '100%',
     },
   })
 );
@@ -62,6 +65,22 @@ const SettingsForm: FC = () => {
 
   const [items, setItems] = useState<OrderListData>(initialItems);
 
+  const handleInputChange = (i: number) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newItems = [...items];
+    const item = newItems[i];
+
+    // update items
+    newItems[i] = {
+      ...item,
+      value: e.target.value,
+      label: e.target.value,
+    };
+
+    setItems(newItems);
+  };
+
   return (
     <Form>
       <FormControl
@@ -85,13 +104,14 @@ const SettingsForm: FC = () => {
       <div className={classes.linksSection}>
         <InputLabel>Links</InputLabel>
         <OrderList data={items} onChange={(_, newData) => setItems(newData)}>
-          {(id, label) => {
-            // console.log({ id });
-            // console.log({ label });
-            // console.log({ i });
-            // console.log({ dataItem });
-            return <div>{label}</div>;
-          }}
+          {(id, label, i) => (
+            <TextField
+              onChange={handleInputChange(i)}
+              value={label}
+              variant="outlined"
+              className={classes.textField}
+            />
+          )}
         </OrderList>
       </div>
     </Form>

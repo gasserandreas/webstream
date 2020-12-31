@@ -33,7 +33,6 @@ type ActionHandler = (
   data: OrderListData
 ) => void;
 
-// interface OrderListBaseProps extends ;
 type OrderListBaseProps = Pick<ListProps, Exclude<keyof ListProps, 'onChange'>>;
 
 interface OrderListProps extends OrderListBaseProps {
@@ -52,7 +51,7 @@ const useStyles = makeStyles((theme) =>
     listItem: {
       display: 'flex',
       flexFlow: 'row',
-      padding: 0,
+      padding: '0.25rem 0',
     },
     orderItems: {
       flexShrink: 0,
