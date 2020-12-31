@@ -7,7 +7,7 @@ const colors = {
     dark: '#00694B',
   },
   red: {
-    default: '#FF0000',
+    default: '#DD0000',
   },
   white: {
     default: '#FCFCFC',
