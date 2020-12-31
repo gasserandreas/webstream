@@ -1,4 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
+
+import { v4 as uuidv4 } from 'uuid';
 
 // import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
@@ -10,6 +12,7 @@ import { createStyles, makeStyles } from '@material-ui/core';
 import Form from '../form-components/Form';
 import FormControl from '../form-components/FormControl';
 import InputLabel from '../form-components/InputLabel';
+import OrderList, { OrderListData } from '../form-components/OrderList';
 
 enum InputValues {
   TIMEOUT = 'timeout',
@@ -29,6 +32,35 @@ const useStyles = makeStyles((theme) =>
 
 const SettingsForm: FC = () => {
   const classes = useStyles();
+
+  const initialItems = [
+    {
+      id: uuidv4(),
+      value: 'no value 1',
+      label: 'No label 1',
+      data: {},
+    },
+    {
+      id: uuidv4(),
+      value: 'no value 2',
+      label: 'No label 2',
+      data: {},
+    },
+    {
+      id: uuidv4(),
+      value: 'no value 3',
+      label: 'No label 3',
+      data: {},
+    },
+    {
+      id: uuidv4(),
+      value: 'no value 4',
+      label: 'No label 4',
+      data: {},
+    },
+  ];
+
+  const [items, setItems] = useState<OrderListData>(initialItems);
 
   return (
     <Form>
@@ -52,6 +84,15 @@ const SettingsForm: FC = () => {
       </FormControl>
       <div className={classes.linksSection}>
         <InputLabel>Links</InputLabel>
+        <OrderList data={items} onChange={(_, newData) => setItems(newData)}>
+          {(id, label) => {
+            // console.log({ id });
+            // console.log({ label });
+            // console.log({ i });
+            // console.log({ dataItem });
+            return <div>{label}</div>;
+          }}
+        </OrderList>
       </div>
     </Form>
   );
