@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import Button from '@material-ui/core/Button';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Switch from '@material-ui/core/Switch';
@@ -15,14 +16,18 @@ import InputLabel from '../form-components/InputLabel';
 import OrderList, { OrderListData } from '../form-components/OrderList';
 
 enum InputValues {
-  TIMEOUT = 'timeout',
+  INTERVAL = 'interval',
   RANDOM = 'random',
 }
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    timeoutInput: {
+    interval: {
       width: `${theme.spacing(18)}px`,
+
+      '& input': {
+        textAlign: 'right',
+      },
     },
     linksSection: {
       margin: '2rem 0  1rem 0',
@@ -30,13 +35,24 @@ const useStyles = makeStyles((theme) =>
     textField: {
       width: '100%',
     },
+    buttonGroup: {
+      display: 'flex',
+      flexFlow: 'row',
+      justifyContent: 'flex-end',
+    },
   })
 );
 
-const SettingsForm: FC = () => {
-  const classes = useStyles();
+type FormData = {
+  interval: string;
+  random: boolean;
+  items: OrderListData;
+};
 
-  const initialItems = [
+const initialState: FormData = {
+  interval: '5',
+  random: false,
+  items: [
     {
       id: uuidv4(),
       value: 'no value 1',
@@ -61,14 +77,48 @@ const SettingsForm: FC = () => {
       label: 'No label 4',
       data: {},
     },
-  ];
+  ],
+};
 
-  const [items, setItems] = useState<OrderListData>(initialItems);
+const SettingsForm: FC = () => {
+  const classes = useStyles();
 
+  const [data, setData] = useState<FormData>(initialState);
+
+  const handleIntervalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({
+      ...data,
+      interval: e.target.value,
+    });
+  };
+
+  const handleRandomOrderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({
+      ...data,
+      random: e.target.value === 'true',
+    });
+  };
+
+  /**
+   * Handle order changes
+   * @param _
+   * @param items
+   */
+  const handleOrderChange = (_: unknown, items: OrderListData) => {
+    setData({
+      ...data,
+      items,
+    });
+  };
+
+  /**
+   * Handle input data changes
+   * @param i
+   */
   const handleInputChange = (i: number) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const newItems = [...items];
+    const newItems = [...data.items];
     const item = newItems[i];
 
     // update items
@@ -78,20 +128,32 @@ const SettingsForm: FC = () => {
       label: e.target.value,
     };
 
-    setItems(newItems);
+    const newData = {
+      ...data,
+      items: newItems,
+    };
+    setData(newData);
+  };
+
+  const handleReset = () => {
+    setData({ ...initialState });
   };
 
   return (
     <Form>
       <FormControl
         inputLabel={
-          <InputLabel htmlFor={InputValues.TIMEOUT}>Change interval</InputLabel>
+          <InputLabel htmlFor={InputValues.INTERVAL}>
+            Change interval
+          </InputLabel>
         }
       >
         <OutlinedInput
-          id={InputValues.TIMEOUT}
-          className={classes.timeoutInput}
+          id={InputValues.INTERVAL}
+          className={classes.interval}
           endAdornment={<InputAdornment position="end">min</InputAdornment>}
+          onChange={handleIntervalChange}
+          value={data.interval}
         />
       </FormControl>
       <FormControl
@@ -99,11 +161,16 @@ const SettingsForm: FC = () => {
           <InputLabel htmlFor={InputValues.RANDOM}>Use random order</InputLabel>
         }
       >
-        <Switch id={InputValues.RANDOM} color="primary" />
+        <Switch
+          id={InputValues.RANDOM}
+          color="primary"
+          onChange={handleRandomOrderChange}
+          value={data.random}
+        />
       </FormControl>
       <div className={classes.linksSection}>
         <InputLabel>Links</InputLabel>
-        <OrderList data={items} onChange={(_, newData) => setItems(newData)}>
+        <OrderList data={data.items} onChange={handleOrderChange}>
           {(id, label, i) => (
             <TextField
               onChange={handleInputChange(i)}
@@ -113,6 +180,11 @@ const SettingsForm: FC = () => {
             />
           )}
         </OrderList>
+      </div>
+      <div className={classes.buttonGroup}>
+        <Button color="secondary" variant="outlined" onClick={handleReset}>
+          Reset all
+        </Button>
       </div>
     </Form>
   );
