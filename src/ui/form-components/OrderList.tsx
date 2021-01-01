@@ -21,8 +21,8 @@ type OrderListDataItemDataProp = {
 
 export type OrderListDataItem = {
   id: ID;
-  label: string;
-  value?: string;
+  value: string;
+  label?: string;
   data?: OrderListDataItemDataProp;
 };
 
@@ -39,7 +39,7 @@ interface OrderListProps extends OrderListBaseProps {
   data: OrderListData;
   children: (
     id: ID,
-    label: string,
+    value: string,
     i: number,
     attrs: OrderListDataItem
   ) => ReactNode;
@@ -131,7 +131,7 @@ const OrderList: FC<OrderListProps> = ({
   return (
     <List {...props}>
       {data.map((dataItem: OrderListDataItem, i) => {
-        const { id, label } = dataItem;
+        const { id, value } = dataItem;
         const key = `list-item-${i}`;
         return (
           <ListItem className={classes.listItem} key={key}>
@@ -158,7 +158,7 @@ const OrderList: FC<OrderListProps> = ({
               </IconButton>
             </Box>
             <Box className={classes.children}>
-              {children(id, label, i, dataItem)}
+              {children(id, value, i, dataItem)}
             </Box>
             <Box className={classes.removeItem}>
               <IconButton

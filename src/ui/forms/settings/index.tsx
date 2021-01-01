@@ -1,7 +1,5 @@
 import React, { FC, useState } from 'react';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import Button from '@material-ui/core/Button';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -10,10 +8,12 @@ import TextField from '@material-ui/core/TextField';
 
 import { createStyles, makeStyles } from '@material-ui/core';
 
-import Form from '../form-components/Form';
-import FormControl from '../form-components/FormControl';
-import InputLabel from '../form-components/InputLabel';
-import OrderList, { OrderListData } from '../form-components/OrderList';
+import Form from '../../form-components/Form';
+import FormControl from '../../form-components/FormControl';
+import InputLabel from '../../form-components/InputLabel';
+import OrderList, { OrderListData } from '../../form-components/OrderList';
+
+import { initialState, FormData } from './state';
 
 enum InputValues {
   INTERVAL = 'interval',
@@ -43,43 +43,6 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-type FormData = {
-  interval: string;
-  random: boolean;
-  items: OrderListData;
-};
-
-const initialState: FormData = {
-  interval: '5',
-  random: false,
-  items: [
-    {
-      id: uuidv4(),
-      value: 'no value 1',
-      label: 'No label 1',
-      data: {},
-    },
-    {
-      id: uuidv4(),
-      value: 'no value 2',
-      label: 'No label 2',
-      data: {},
-    },
-    {
-      id: uuidv4(),
-      value: 'no value 3',
-      label: 'No label 3',
-      data: {},
-    },
-    {
-      id: uuidv4(),
-      value: 'no value 4',
-      label: 'No label 4',
-      data: {},
-    },
-  ],
-};
-
 const SettingsForm: FC = () => {
   const classes = useStyles();
 
@@ -107,7 +70,7 @@ const SettingsForm: FC = () => {
   const handleOrderChange = (_: unknown, items: OrderListData) => {
     setData({
       ...data,
-      items,
+      items: items.map(({ id, value }) => ({ id, value })),
     });
   };
 
@@ -125,7 +88,6 @@ const SettingsForm: FC = () => {
     newItems[i] = {
       ...item,
       value: e.target.value,
-      label: e.target.value,
     };
 
     const newData = {
@@ -171,10 +133,10 @@ const SettingsForm: FC = () => {
       <div className={classes.linksSection}>
         <InputLabel>Links</InputLabel>
         <OrderList data={data.items} onChange={handleOrderChange}>
-          {(id, label, i) => (
+          {(id, value, i) => (
             <TextField
               onChange={handleInputChange(i)}
-              value={label}
+              value={value}
               variant="outlined"
               className={classes.textField}
             />
