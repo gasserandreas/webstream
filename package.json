@@ -18,6 +18,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/yup": "^0.29.11",
     "clsx": "^1.1.1",
+    "dayjs": "^1.9.8",
     "formik": "^2.2.6",
     "lodash": "^4.17.20",
     "react": "^17.0.1",

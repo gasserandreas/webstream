@@ -83,6 +83,9 @@ const theme = createMuiTheme({
         fontSize: '2.0rem',
         fontWeight: 700,
       },
+      body2: {
+        fontSize: '0.9rem',
+      },
     },
     MuiInputLabel: {
       root: {
