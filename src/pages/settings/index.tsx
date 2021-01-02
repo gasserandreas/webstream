@@ -7,13 +7,11 @@ import {
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles } from '@material-ui/core';
 
-import SettingsForm, { FormData } from '../../ui/forms/settings';
-
-// import { Link, LinkList } from '../../entities/models';
 import { settingsActions } from '../../entities/settings';
 import {
   settingsIntervalSelector,
@@ -21,10 +19,16 @@ import {
   settingsIsRandomOrderSelector,
 } from '../../entities/settings/selectors';
 
+import Header, { HEADER_SIZE } from './header';
+import SettingsForm, { FormData } from '../../ui/forms/settings';
+
 interface SettingsProps extends RouteComponentProps {} // eslint-disable-line
 
 const useStyles = makeStyles(() =>
   createStyles({
+    wrapper: {
+      position: 'relative',
+    },
     title: {
       marginTop: '1rem',
     },
@@ -65,12 +69,17 @@ const SettingsPage: FunctionComponent<SettingsProps> = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography className={classes.title} variant="h1" gutterBottom>
-        Settings
-      </Typography>
-      <SettingsForm data={formData} onSave={handleSave} />
-    </Container>
+    <div className={classes.wrapper}>
+      <Header />
+      <Container maxWidth="sm">
+        <Box mt={`${HEADER_SIZE}px`}>
+          <Typography className={classes.title} variant="h1" gutterBottom>
+            Settings
+          </Typography>
+          <SettingsForm data={formData} onSave={handleSave} />
+        </Box>
+      </Container>
+    </div>
   );
 };
 

@@ -41,3 +41,13 @@ export const settingsStreamsOrderedListSelector = createSelector(
   settingsStreamsByIdSelector,
   (orderedIds, byId) => orderedIds.map((id) => byId[id])
 );
+
+export const settingsMetaSelector = createSelector(
+  settingsSelector,
+  ({ meta }) => meta
+);
+
+export const settingsMetaLastSavedSelector = createSelector(
+  settingsMetaSelector,
+  ({ lastSaved }) => lastSaved
+);
