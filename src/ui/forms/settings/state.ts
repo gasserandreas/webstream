@@ -8,13 +8,13 @@ export type LinkItems = {
 export type FormData = {
   interval: string;
   random: boolean;
-  items: Array<LinkItems>;
+  links: Array<LinkItems>;
 };
 
 export const initialState: FormData = {
   interval: '5',
   random: false,
-  items: [
+  links: [
     {
       id: uuidv4(),
       value: 'no value 1',
@@ -23,13 +23,13 @@ export const initialState: FormData = {
       id: uuidv4(),
       value: 'no value 2',
     },
-    {
-      id: uuidv4(),
-      value: 'no value 3',
-    },
-    {
-      id: uuidv4(),
-      value: 'no value 4',
-    },
+    //   {
+    //     id: uuidv4(),
+    //     value: 'no value 3',
+    //   },
+    //   {
+    //     id: uuidv4(),
+    //     value: 'no value 4',
+    //   },
   ],
 };

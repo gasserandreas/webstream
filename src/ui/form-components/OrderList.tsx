@@ -28,11 +28,6 @@ export type OrderListDataItem = {
 
 export type OrderListData = Array<OrderListDataItem>;
 
-type ActionHandler = (
-  e: React.MouseEvent<HTMLButtonElement>,
-  data: OrderListData
-) => void;
-
 type OrderListBaseProps = Pick<ListProps, Exclude<keyof ListProps, 'onChange'>>;
 
 interface OrderListProps extends OrderListBaseProps {
@@ -43,7 +38,18 @@ interface OrderListProps extends OrderListBaseProps {
     i: number,
     attrs: OrderListDataItem
   ) => ReactNode;
-  onChange?: ActionHandler; // override default onChange
+  onMove: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    i: number,
+    nextIndex: number,
+    data?: OrderListDataItem
+  ) => void;
+  onDelete: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    i: number,
+    data?: OrderListDataItem
+  ) => void;
+  // onChange?: ActionHandler; // override default onChange
 }
 
 const useStyles = makeStyles((theme) =>
@@ -52,6 +58,8 @@ const useStyles = makeStyles((theme) =>
       display: 'flex',
       flexFlow: 'row',
       padding: '0.25rem 0',
+      minHeight: `${theme.spacing(9.25)}px`,
+      alignItems: 'baseline',
     },
     orderItems: {
       flexShrink: 0,
@@ -85,48 +93,11 @@ const useStyles = makeStyles((theme) =>
 const OrderList: FC<OrderListProps> = ({
   data,
   children,
-  onChange,
+  onMove,
+  onDelete,
   ...props
 }) => {
   const classes = useStyles();
-
-  /**
-   * callback to handle reorder items
-   * @param i
-   * @param direction
-   * @param e
-   */
-  const handleReOrder = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    i: number,
-    direction: ReOrderDirection
-  ) => {
-    // stop if no reorder callback present
-    if (!onChange) return false;
-
-    const newData = [...data];
-
-    if (direction === ReOrderDirection.UP) {
-      [newData[i - 1], newData[i]] = [newData[i], newData[i - 1]];
-    } else {
-      [newData[i], newData[i + 1]] = [newData[i + 1], newData[i]];
-    }
-
-    onChange(e, newData);
-
-    return newData;
-  };
-
-  const handleRemove = (e: React.MouseEvent<HTMLButtonElement>, i: number) => {
-    if (!onChange) return false;
-
-    const newData = [...data];
-    newData.splice(i, 1);
-
-    onChange(e, newData);
-
-    return newData;
-  };
 
   return (
     <List {...props}>
@@ -138,7 +109,7 @@ const OrderList: FC<OrderListProps> = ({
             <Box className={classes.orderItems}>
               <IconButton
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                  handleReOrder(e, i, ReOrderDirection.UP)
+                  onMove(e, i, i - 1, dataItem)
                 }
                 className={classes.orderItemIcon}
                 disabled={i === 0}
@@ -148,7 +119,7 @@ const OrderList: FC<OrderListProps> = ({
               </IconButton>
               <IconButton
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                  handleReOrder(e, i, ReOrderDirection.DOWN)
+                  onMove(e, i, i + 1, dataItem)
                 }
                 className={classes.orderItemIcon}
                 disabled={i === data.length - 1}
@@ -163,7 +134,7 @@ const OrderList: FC<OrderListProps> = ({
             <Box className={classes.removeItem}>
               <IconButton
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                  handleRemove(e, i)
+                  onDelete(e, i, dataItem)
                 }
                 color="secondary"
               >
