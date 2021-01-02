@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { v4 as uuiv4 } from 'uuid';
+import React, { FC, useMemo } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Formik, Form, FieldArray, getIn } from 'formik';
 
@@ -20,7 +20,8 @@ import FormControl from '../../form-components/FormControl';
 import InputLabel from '../../form-components/InputLabel';
 import OrderList from '../../form-components/OrderList';
 
-import { initialState } from './state';
+import { LinkList } from '../../../entities/models';
+
 import validationSchema from './validationSchema';
 
 enum InputValues {
@@ -28,6 +29,28 @@ enum InputValues {
   RANDOM = 'random',
   LINKS = 'links',
 }
+
+type SettingsFormProps = {
+  data?: FormData;
+  onSave: (values: FormData) => void;
+};
+
+export type FormData = {
+  interval: string;
+  random: boolean;
+  links: LinkList;
+};
+
+export const initialState: FormData = {
+  interval: '30000',
+  random: false,
+  links: [
+    {
+      id: uuidv4(),
+      value: '',
+    },
+  ],
+};
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -66,12 +89,20 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const SettingsForm: FC = () => {
+const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
   const classes = useStyles();
+
+  const initialValues = useMemo(() => {
+    if (!data) {
+      return initialState;
+    }
+    return data;
+  }, [data]);
 
   return (
     <Formik
-      initialValues={initialState}
+      enableReinitialize
+      initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
         // clean empty fields
@@ -81,8 +112,8 @@ const SettingsForm: FC = () => {
             ({ value }) => Boolean(value) && value.length > 0
           ),
         };
-        // eslint-disable-next-line no-console
-        console.log({ newValues });
+
+        onSave(newValues);
       }}
     >
       {({ submitForm, handleChange, values, handleReset, errors }) => {
@@ -150,7 +181,7 @@ const SettingsForm: FC = () => {
                   };
 
                   const handleAdd = () => {
-                    push({ id: uuiv4(), value: '' });
+                    push({ id: uuidv4(), value: '' });
                   };
 
                   return (
