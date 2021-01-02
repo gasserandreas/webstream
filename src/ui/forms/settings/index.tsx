@@ -116,7 +116,8 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
         onSave(newValues);
       }}
     >
-      {({ submitForm, handleChange, values, handleReset, errors }) => {
+      {/* {({ submitForm, handleChange, values, handleReset, errors }) => { */}
+      {({ submitForm, handleChange, values, errors }) => {
         const disabled = Object.values(errors).length > 0;
 
         return (
@@ -150,6 +151,7 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                   Use random order
                 </InputLabel>
               }
+              disabled
             >
               <Switch
                 id={InputValues.RANDOM}
@@ -157,6 +159,7 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                 onChange={handleChange}
                 value={values.random}
               />
+              <FormHelperText>(not yet implemented)</FormHelperText>
             </FormControl>
             <div className={classes.linksSection}>
               <InputLabel>Links</InputLabel>
@@ -226,9 +229,9 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
               </FieldArray>
             </div>
             <div className={classes.buttonGroup}>
-              <Button color="secondary" onClick={handleReset}>
+              {/* <Button color="secondary" onClick={handleReset}>
                 Reset all
-              </Button>
+              </Button> */}
               <Button
                 color="primary"
                 variant="outlined"

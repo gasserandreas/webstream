@@ -12,8 +12,6 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles } from '@material-ui/core';
 
-import SettingsForm, { FormData } from '../../ui/forms/settings';
-
 import { settingsActions } from '../../entities/settings';
 import {
   settingsIntervalSelector,
@@ -22,7 +20,7 @@ import {
 } from '../../entities/settings/selectors';
 
 import Header, { HEADER_SIZE } from './header';
-import SettingsForm from '../../ui/forms/settings';
+import SettingsForm, { FormData } from '../../ui/forms/settings';
 
 interface SettingsProps extends RouteComponentProps {} // eslint-disable-line
 
