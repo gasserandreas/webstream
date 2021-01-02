@@ -23,7 +23,11 @@ const useStyles = makeStyles(() =>
       margin: FORM_CONTROL_MARGIN,
     },
     labelWrapper: {},
-    inputWrapper: {},
+    inputWrapper: {
+      display: 'flex',
+      flexFlow: 'column',
+      alignItems: 'flex-end',
+    },
   })
 );
 
