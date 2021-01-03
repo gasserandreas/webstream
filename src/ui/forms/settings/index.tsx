@@ -123,6 +123,10 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
       {/* {({ submitForm, handleChange, values, handleReset, errors }) => { */}
       {({ submitForm, validateForm, handleChange, values, errors }) => {
         const disabled = Object.values(errors).length > 0;
+
+        const showGeneralLinkError =
+          errors.links && !Array.isArray(errors.links);
+
         return (
           <Form>
             <FormControl
@@ -225,7 +229,7 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                           );
                         }}
                       </OrderList>
-                      {errors.links && (
+                      {showGeneralLinkError && (
                         <FormHelperText className={classes.linkErrorText} error>
                           {errors.links}
                         </FormHelperText>
