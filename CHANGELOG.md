@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/gasserandreas/webstream/compare/v1.3.2...v1.3.3) (2021-01-03)
+
+
+### Bug Fixes
+
+* **#11:** fixed initial value issue ([26501bf](https://github.com/gasserandreas/webstream/commit/26501bf57673836f6242936ec6d0d78ea6337d86))
+
 ## [1.3.2](https://github.com/gasserandreas/webstream/compare/v1.3.1...v1.3.2) (2021-01-03)
 
 
