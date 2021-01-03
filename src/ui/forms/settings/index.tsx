@@ -117,7 +117,7 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
       }}
     >
       {/* {({ submitForm, handleChange, values, handleReset, errors }) => { */}
-      {({ submitForm, handleChange, values, errors }) => {
+      {({ submitForm, validateForm, handleChange, values, errors }) => {
         const disabled = Object.values(errors).length > 0;
 
         return (
@@ -171,6 +171,14 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                     nextIndex: number
                   ) => {
                     move(index, nextIndex);
+                    /**
+                     * manual triggering validation after update
+                     * as workaround for formik FieldArray validation
+                     * issue: https://github.com/formium/formik/issues/2378
+                     */
+                    setTimeout(() => {
+                      validateForm();
+                    }, 10);
                   };
 
                   const handleOnDelete = (_: unknown, index: number) => {
