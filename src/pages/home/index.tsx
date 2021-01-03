@@ -4,11 +4,18 @@ import {
   Switch,
   Route,
   useRouteMatch,
+  useHistory,
   RouteComponentProps,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+
+import CachedIcon from '@material-ui/icons/Cached';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import { streamsActions } from '../../entities/streams/index';
 import {
@@ -21,6 +28,10 @@ import {
 } from '../../entities/streams/selectors';
 
 import IFrame from '../../ui/iFrame';
+import Navigation from '../../ui/navigation';
+import NavItem from '../../ui/navigation/item';
+
+import { SETTINGS } from '../../constants/paths';
 
 // type definitions
 type SizeDefinition = Optional<{
@@ -61,6 +72,7 @@ const IndexPage: FunctionComponent = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const shouldRenderEven = useSelector(shouldRenderEvenSelector);
   const shouldRenderOdd = useSelector(shouldRenderOddSelector);
@@ -71,8 +83,6 @@ const IndexPage: FunctionComponent = () => {
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [sizes, setSizes] = useState<SizeDefinition | null>(null);
-
-  console.log({ sizes }); // eslint-disable-line
 
   /**
    * web frame start and end actions
@@ -105,8 +115,40 @@ const IndexPage: FunctionComponent = () => {
     };
   }
 
+  const unSupportedAction = (func: string) => () => {
+    // eslint-disable-next-line no-console
+    console.log(`${func} not yet implemented`);
+  };
+
   return (
     <div className={classes.wrapper} ref={wrapperRef}>
+      <Navigation
+        bottomElements={[
+          <NavItem onClick={() => history.push(SETTINGS)}>
+            <SettingsIcon />
+          </NavItem>,
+        ]}
+      >
+        <NavItem
+          key="nav-item-reload"
+          onClick={unSupportedAction('reload')}
+          disabled
+        >
+          <CachedIcon />
+        </NavItem>
+        <NavItem
+          key="nav-item-prev"
+          onClick={() => dispatch(streamsActions.prev())}
+        >
+          <ArrowLeftIcon />
+        </NavItem>
+        <NavItem
+          key="nav-item-next"
+          onClick={() => dispatch(streamsActions.next())}
+        >
+          <ArrowRightIcon />
+        </NavItem>
+      </Navigation>
       <div className={classes.frame} style={getOpacityStyles(shouldShowEven)}>
         {(shouldRenderEven || shouldShowEven) && (
           <IFrame
