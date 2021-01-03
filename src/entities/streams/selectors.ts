@@ -58,11 +58,11 @@ const orderedStreamsSelector = createSelector(
 export const evenStreamSelector = createSelector(
   orderedStreamsSelector,
   indicesSelector,
-  (streams, indices) => streams[indices.even] || null
+  (streams, indices) => streams[indices.even]
 );
 
 export const oddStreamSelector = createSelector(
   orderedStreamsSelector,
   indicesSelector,
-  (streams, indices) => streams[indices.odd] || null
+  (streams, indices) => streams[indices.odd]
 );

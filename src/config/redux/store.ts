@@ -5,9 +5,6 @@ import { createEpicMiddleware } from 'redux-observable';
 import debounce from 'lodash/debounce';
 import ric from 'ric-shim';
 
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-
 import { composeEnhancers } from './utils';
 import rootReducer from './rootReducer';
 import { appIdle } from './rootActions';
@@ -25,13 +22,7 @@ export const epicMiddleware = createEpicMiddleware<
   dependencies: services,
 });
 
-const persistConfig = {
-  key: 'webstream-storage',
-  storage,
-  whitelist: ['settings'],
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const routerMiddleware = createRouterMiddleware(history);
 
 // configure middlewares
 const middlewares = [epicMiddleware];
@@ -44,7 +35,7 @@ const initialState =
   process.env.NODE_ENV !== 'production' ? devInitialState : {};
 
 // create store
-const store = createStore(persistedReducer, initialState, enhancer);
+const store = createStore(rootReducer, initialState, enhancer);
 
 // idle configuration
 const idleDispatcher = () => {
@@ -72,9 +63,4 @@ store.subscribe(deBounced);
 epicMiddleware.run(rootEpic);
 
 // export store singleton instance
-const persistor = persistStore(store);
-
-export default {
-  store,
-  persistor,
-};
+export default store;
