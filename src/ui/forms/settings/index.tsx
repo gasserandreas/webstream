@@ -86,6 +86,10 @@ const useStyles = makeStyles((theme) =>
         marginLeft: '0.5rem',
       },
     },
+    linkErrorText: {
+      textAlign: 'right',
+      marginBottom: '2rem',
+    },
   })
 );
 
@@ -119,7 +123,6 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
       {/* {({ submitForm, handleChange, values, handleReset, errors }) => { */}
       {({ submitForm, validateForm, handleChange, values, errors }) => {
         const disabled = Object.values(errors).length > 0;
-
         return (
           <Form>
             <FormControl
@@ -222,6 +225,11 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                           );
                         }}
                       </OrderList>
+                      {errors.links && (
+                        <FormHelperText className={classes.linkErrorText} error>
+                          {errors.links}
+                        </FormHelperText>
+                      )}
                       <Box className={classes.addWrapper}>
                         <Typography>add another link</Typography>
                         <IconButton

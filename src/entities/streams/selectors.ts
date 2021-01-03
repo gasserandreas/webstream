@@ -49,7 +49,7 @@ export const shouldShowOddSelector = shouldShowSelector(ActiveFrame.ODD);
 /**
  *
  */
-const orderedStreamsSelector = createSelector(
+export const orderedStreamsSelector = createSelector(
   settingsStreamsByIdSelector,
   settingsStreamsOrderedSelector,
   (byId, orderedIds) => orderedIds.map((id) => byId[id])

@@ -6,6 +6,7 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
@@ -43,14 +44,27 @@ const SettingsPage: FunctionComponent<SettingsProps> = () => {
   const isRandom = useSelector(settingsIsRandomOrderSelector);
   const links = useSelector(settingsStreamsOrderedListSelector);
 
-  const formData: FormData = useMemo(
-    () => ({
+  const formData: FormData = useMemo(() => {
+    const newLinks =
+      links.length > 1
+        ? links
+        : // ensure having at least two fields set as default
+          [
+            {
+              id: uuidv4(),
+              value: '',
+            },
+            {
+              id: uuidv4(),
+              value: '',
+            },
+          ];
+    return {
       interval: `${interval / 60000}`,
       random: isRandom,
-      links,
-    }),
-    [interval, isRandom, links]
-  );
+      links: newLinks,
+    };
+  }, [interval, isRandom, links]);
 
   const handleSave = (values: FormData) => {
     const newValues = {
