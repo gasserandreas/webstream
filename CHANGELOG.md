@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/gasserandreas/webstream/compare/v1.3.0...v1.3.1) (2021-01-03)
+
+
+### Bug Fixes
+
+* **#23:** require min two streams ([aa3ca73](https://github.com/gasserandreas/webstream/commit/aa3ca73a0929c42b5a711d8c1c85e9692a3220bc)), closes [#23](https://github.com/gasserandreas/webstream/issues/23)
+
 # [1.3.0](https://github.com/gasserandreas/webstream/compare/v1.2.0...v1.3.0) (2021-01-03)
 
 
