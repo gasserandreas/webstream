@@ -124,17 +124,6 @@ const handleSwitchEpic: Epic<RootAction, RootAction, RootState, Services> = (
   action$.pipe(
     ofType(SWITCH),
     mergeMap((action) => {
-      // const { indices, active } = store.value.streams;
-      // const { ids } = store.value.settings.streams;
-
-      // const nextActiveFrame =
-      //   active === ActiveFrame.EVEN ? ActiveFrame.ODD : ActiveFrame.EVEN;
-
-      // const nextIndex = getNextIndex(
-      //   nextActiveFrame === ActiveFrame.EVEN ? indices.odd : indices.even,
-      //   ids.length
-      // );
-
       const { nextIndex, nextFrame } = action.payload;
 
       const setIndexAction = nextFrame === ActiveFrame.EVEN ? setEven : setOdd;
@@ -217,10 +206,8 @@ export const streamsEpics = {
 type ActiveState = ActiveFrame | null;
 
 const activeReducer = createReducer<ActiveState, StreamsAction>(
-  null
+  ActiveFrame.EVEN
 ).handleAction(streamsActions.setActive, (_, action) => action.payload);
-// .handleAction(streamsActions.startStreams, () => true)
-// .handleAction(streamsActions.endStreams, () => false);
 
 /**
  * preload reducers
