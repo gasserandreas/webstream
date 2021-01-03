@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/gasserandreas/webstream/compare/v1.2.0...v1.3.0) (2021-01-03)
+
+
+### Features
+
+* **#16:** added left navigation ([fec3a78](https://github.com/gasserandreas/webstream/commit/fec3a788f59d498cc7a6d064032e97f1abf30bd1)), closes [#16](https://github.com/gasserandreas/webstream/issues/16) [#16](https://github.com/gasserandreas/webstream/issues/16) [#16](https://github.com/gasserandreas/webstream/issues/16)
+
 # [1.2.0](https://github.com/gasserandreas/webstream/compare/v1.1.0...v1.2.0) (2021-01-03)
 
 
