@@ -110,7 +110,7 @@ const IndexPage: FunctionComponent = () => {
       <div className={classes.frame} style={getOpacityStyles(shouldShowEven)}>
         {(shouldRenderEven || shouldShowEven) && (
           <IFrame
-            link={evenStream.href}
+            link={evenStream.value}
             width={sizes?.width}
             height={sizes?.height}
           />
@@ -119,7 +119,7 @@ const IndexPage: FunctionComponent = () => {
       <div className={classes.frame} style={getOpacityStyles(shouldShowOdd)}>
         {(shouldRenderOdd || shouldShowOdd) && (
           <IFrame
-            link={oddStream.href}
+            link={oddStream.value}
             width={sizes?.width}
             height={sizes?.height}
           />
