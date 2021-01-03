@@ -6,26 +6,28 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import App from './App';
 import theme from './theme';
 
-import store from './config/redux/store';
+import storeConfig from './config/redux/store';
 
 import reportWebVitals from './reportWebVitals';
 
 // create store object
-// const initialStore = {};
-// const store = configureStore(initialStore);
+const { store, persistor } = storeConfig;
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </PersistGate>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>,

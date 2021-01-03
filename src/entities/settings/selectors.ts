@@ -11,6 +11,11 @@ export const settingsIntervalSelector = createSelector(
   (state: SettingsState) => state.timeInterval
 );
 
+export const settingsIsRandomOrderSelector = createSelector(
+  settingsSelector,
+  (state: SettingsState) => state.isRandomOrder
+);
+
 export const settingsStreamsSelector = createSelector(
   settingsSelector,
   (state: SettingsState) => state.streams
@@ -29,4 +34,20 @@ export const settingsStreamsIdsSelector = createSelector(
 export const settingsStreamsOrderedSelector = createSelector(
   settingsStreamsSelector,
   ({ ordered }) => ordered
+);
+
+export const settingsStreamsOrderedListSelector = createSelector(
+  settingsStreamsOrderedSelector,
+  settingsStreamsByIdSelector,
+  (orderedIds, byId) => orderedIds.map((id) => byId[id])
+);
+
+export const settingsMetaSelector = createSelector(
+  settingsSelector,
+  ({ meta }) => meta
+);
+
+export const settingsMetaLastSavedSelector = createSelector(
+  settingsMetaSelector,
+  ({ lastSaved }) => lastSaved
 );
