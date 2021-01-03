@@ -15,11 +15,19 @@ const validationSchema = Yup.object().shape({
         value: Link,
       })
     )
+    /**
+     * validate link array min length of links
+     */
     .test({
-      message: 'At least two links must be configured',
+      message: 'specify at least two links',
       test: (arr) => {
-        if (!arr) return true;
-        return arr.length <= 1;
+        if (!arr) return false;
+
+        const linkValues = arr
+          .map(({ value }) => value)
+          .filter((item) => Boolean(item));
+
+        return linkValues.length >= 2;
       },
     }),
 });
