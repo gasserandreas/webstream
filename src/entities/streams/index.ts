@@ -1,7 +1,7 @@
 import { RootAction, RootState, Services } from 'MyTypes';
 import { combineReducers } from 'redux';
 import { merge, of, interval } from 'rxjs';
-import { mergeMap, delay, takeUntil } from 'rxjs/operators';
+import { mergeMap, delay, takeUntil, map } from 'rxjs/operators';
 import { Epic, ofType } from 'redux-observable';
 import { createAction, ActionType, createReducer } from 'typesafe-actions';
 
@@ -29,7 +29,9 @@ const SWITCH = 'streams/switch';
 const SET_ODD = 'streams/setOdd';
 const SET_EVEN = 'streams/setEven';
 
-// const RELOAD = 'streams/reload';
+const NEXT = 'streams/next';
+const PREV = 'streams/prev';
+const RELOAD = 'streams/reload';
 
 // simple actions
 const startStreams = createAction(START_STREAMS)<void>();
@@ -49,18 +51,24 @@ const setPreload = createAction(
   (preload: ActiveFrame | null) => preload
 )<SetPreloadPayload>();
 
-type SwitchStreamsPayload = {
-  activeIndex: number;
+type SwitchPayload = {
+  nextIndex: number;
+  nextFrame: ActiveFrame;
 };
 
-const switchStreams = createAction(SWITCH, (activeIndex: number) => ({
-  activeIndex,
-}))<SwitchStreamsPayload>();
+const switchStreams = createAction(SWITCH, (nextIndex, nextFrame) => ({
+  nextIndex,
+  nextFrame,
+}))<SwitchPayload>();
 
 type IndexPayload = number;
 
 const setOdd = createAction(SET_ODD)<IndexPayload>();
 const setEven = createAction(SET_EVEN)<IndexPayload>();
+
+const next = createAction(NEXT)<void>();
+const prev = createAction(PREV)<void>();
+const reload = createAction(RELOAD)<void>();
 
 export const streamsActions = {
   setActive,
@@ -70,6 +78,9 @@ export const streamsActions = {
   switchStreams,
   setOdd,
   setEven,
+  next,
+  prev,
+  reload,
 };
 
 export type StreamsAction = ActionType<typeof streamsActions>;
@@ -83,42 +94,119 @@ const handleStreamsEpic: Epic<RootAction, RootAction, RootState, Services> = (
     ofType(START_STREAMS),
     mergeMap(() => {
       const userInterval = settingsIntervalSelector(store.value);
-      console.log({ userInterval }); // eslint-disable-line
-
       return interval(userInterval).pipe(
         takeUntil(action$.ofType(END_STREAMS)), // stop on end streams
         mergeMap(() => {
-          const { indices, active } = store.value.streams;
-          const { ids } = store.value.settings.streams;
-          console.log({ indices }); // eslint-disable-line
-          console.log('calculate next integer'); // eslint-disable-line
+          const {
+            value: { streams, settings },
+          } = store;
 
-          const nextActiveFrame =
+          const { indices, active } = streams;
+          const { ids } = settings.streams;
+
+          const nextFrame =
             active === ActiveFrame.EVEN ? ActiveFrame.ODD : ActiveFrame.EVEN;
 
           const nextIndex = getNextIndex(
-            nextActiveFrame === ActiveFrame.EVEN ? indices.odd : indices.even,
+            nextFrame === ActiveFrame.EVEN ? indices.odd : indices.even,
             ids.length
           );
 
-          const setIndexAction =
-            nextActiveFrame === ActiveFrame.EVEN ? setEven : setOdd;
-
-          return merge(
-            // set pre-load and next index
-            of(setPreload(nextActiveFrame), setIndexAction(nextIndex)),
-            // change web stream after delay
-            of(setActive(nextActiveFrame)).pipe(delay(SET_ACTIVE_ACTION_DELAY)),
-            // reset preload
-            of(setPreload(null)).pipe(delay(RESET_PRELOAD_ACTION_DELAY))
-          );
+          return of(switchStreams(nextIndex, nextFrame));
         })
       );
     })
   );
 
+const handleSwitchEpic: Epic<RootAction, RootAction, RootState, Services> = (
+  action$
+) =>
+  action$.pipe(
+    ofType(SWITCH),
+    mergeMap((action) => {
+      // const { indices, active } = store.value.streams;
+      // const { ids } = store.value.settings.streams;
+
+      // const nextActiveFrame =
+      //   active === ActiveFrame.EVEN ? ActiveFrame.ODD : ActiveFrame.EVEN;
+
+      // const nextIndex = getNextIndex(
+      //   nextActiveFrame === ActiveFrame.EVEN ? indices.odd : indices.even,
+      //   ids.length
+      // );
+
+      const { nextIndex, nextFrame } = action.payload;
+
+      const setIndexAction = nextFrame === ActiveFrame.EVEN ? setEven : setOdd;
+
+      return merge(
+        // set pre-load and next index
+        of(setPreload(nextFrame), setIndexAction(nextIndex)),
+        // change web stream after delay
+        of(setActive(nextFrame)).pipe(delay(SET_ACTIVE_ACTION_DELAY)),
+        // reset preload
+        of(setPreload(null)).pipe(delay(RESET_PRELOAD_ACTION_DELAY))
+      );
+    })
+  );
+
+const handleNextEpic: Epic<RootAction, RootAction, RootState, Services> = (
+  action$,
+  store
+) =>
+  action$.pipe(
+    ofType(NEXT),
+    map(() => {
+      const {
+        value: { streams, settings },
+      } = store;
+      const { indices, active } = streams;
+      const { ids } = settings.streams;
+
+      const currentIndex =
+        active === ActiveFrame.EVEN ? indices.even : indices.odd;
+
+      let nextIndex = currentIndex + 1;
+
+      if (nextIndex >= ids.length) {
+        nextIndex = 0;
+      }
+
+      return switchStreams(nextIndex, active);
+    })
+  );
+
+const handlePrevEpic: Epic<RootAction, RootAction, RootState, Services> = (
+  action$,
+  store
+) =>
+  action$.pipe(
+    ofType(PREV),
+    map(() => {
+      const {
+        value: { streams, settings },
+      } = store;
+      const { indices, active } = streams;
+      const { ids } = settings.streams;
+
+      const currentIndex =
+        active === ActiveFrame.EVEN ? indices.even : indices.odd;
+
+      let nextIndex = currentIndex - 1;
+
+      if (nextIndex < 0) {
+        nextIndex = ids.length - 1;
+      }
+
+      return switchStreams(nextIndex, active);
+    })
+  );
+
 export const streamsEpics = {
   handleStreamsEpic,
+  handleSwitchEpic,
+  handleNextEpic,
+  handlePrevEpic,
 };
 
 // reducers

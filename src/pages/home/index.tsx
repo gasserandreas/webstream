@@ -137,16 +137,14 @@ const IndexPage: FunctionComponent = () => {
           <CachedIcon />
         </NavItem>
         <NavItem
-          key="nav-item-next"
-          onClick={unSupportedAction('next')}
-          disabled
+          key="nav-item-prev"
+          onClick={() => dispatch(streamsActions.prev())}
         >
           <ArrowLeftIcon />
         </NavItem>
         <NavItem
-          key="nav-item-prev"
-          onClick={unSupportedAction('prev')}
-          disabled
+          key="nav-item-next"
+          onClick={() => dispatch(streamsActions.next())}
         >
           <ArrowRightIcon />
         </NavItem>
