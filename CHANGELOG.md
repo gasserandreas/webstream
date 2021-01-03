@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/gasserandreas/webstream/compare/v1.1.0...v1.2.0) (2021-01-03)
+
+
+### Features
+
+* **#11:** added settings page ([31ded7b](https://github.com/gasserandreas/webstream/commit/31ded7b2dd4279b87ed46d39e129048a4552daed)), closes [#11](https://github.com/gasserandreas/webstream/issues/11) [#11](https://github.com/gasserandreas/webstream/issues/11) [#11](https://github.com/gasserandreas/webstream/issues/11) [#11](https://github.com/gasserandreas/webstream/issues/11) [#11](https://github.com/gasserandreas/webstream/issues/11) [#11](https://github.com/gasserandreas/webstream/issues/11)
+
 # [1.1.0](https://github.com/gasserandreas/webstream/compare/v1.0.0...v1.1.0) (2020-12-27)
 
 
