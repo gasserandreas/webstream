@@ -28,6 +28,7 @@
     "react-scripts": "4.0.1",
     "redux": "^4.0.5",
     "redux-observable": "^1.2.0",
+    "redux-persist": "^6.0.0",
     "reselect": "^4.0.0",
     "ric-shim": "^1.0.0",
     "rxjs": "^6.6.3",
