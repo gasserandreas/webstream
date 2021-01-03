@@ -25,6 +25,7 @@ import {
   shouldShowOddSelector,
   evenStreamSelector,
   oddStreamSelector,
+  orderedStreamsSelector,
 } from '../../entities/streams/selectors';
 
 import IFrame from '../../ui/iFrame';
@@ -80,9 +81,17 @@ const IndexPage: FunctionComponent = () => {
   const shouldShowOdd = useSelector(shouldShowOddSelector);
   const evenStream = useSelector(evenStreamSelector);
   const oddStream = useSelector(oddStreamSelector);
+  const orderedStreams = useSelector(orderedStreamsSelector);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [sizes, setSizes] = useState<SizeDefinition | null>(null);
+
+  useEffect(() => {
+    // go to settings page
+    if (orderedStreams.length <= 1) {
+      history.push(SETTINGS);
+    }
+  }, [history, orderedStreams]);
 
   /**
    * web frame start and end actions
@@ -149,24 +158,34 @@ const IndexPage: FunctionComponent = () => {
           <ArrowRightIcon />
         </NavItem>
       </Navigation>
-      <div className={classes.frame} style={getOpacityStyles(shouldShowEven)}>
-        {(shouldRenderEven || shouldShowEven) && (
-          <IFrame
-            link={evenStream.value}
-            width={sizes?.width}
-            height={sizes?.height}
-          />
-        )}
-      </div>
-      <div className={classes.frame} style={getOpacityStyles(shouldShowOdd)}>
-        {(shouldRenderOdd || shouldShowOdd) && (
-          <IFrame
-            link={oddStream.value}
-            width={sizes?.width}
-            height={sizes?.height}
-          />
-        )}
-      </div>
+      {orderedStreams.length > 1 && (
+        <>
+          <div
+            className={classes.frame}
+            style={getOpacityStyles(shouldShowEven)}
+          >
+            {(shouldRenderEven || shouldShowEven) && (
+              <IFrame
+                link={evenStream.value}
+                width={sizes?.width}
+                height={sizes?.height}
+              />
+            )}
+          </div>
+          <div
+            className={classes.frame}
+            style={getOpacityStyles(shouldShowOdd)}
+          >
+            {(shouldRenderOdd || shouldShowOdd) && (
+              <IFrame
+                link={oddStream.value}
+                width={sizes?.width}
+                height={sizes?.height}
+              />
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
