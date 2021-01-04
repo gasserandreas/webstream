@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/gasserandreas/webstream/compare/v1.4.0...v1.4.1) (2021-01-04)
+
+
+### Bug Fixes
+
+* **#35:** fixed regex issue with complext urls ([#36](https://github.com/gasserandreas/webstream/issues/36)) ([e31db02](https://github.com/gasserandreas/webstream/commit/e31db02324df77df68868acff504301baa256e2e))
+
 # [1.4.0](https://github.com/gasserandreas/webstream/compare/v1.3.3...v1.4.0) (2021-01-04)
 
 
