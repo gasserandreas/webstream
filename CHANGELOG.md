@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/gasserandreas/webstream/compare/v1.3.3...v1.4.0) (2021-01-04)
+
+
+### Features
+
+* **#33:** save button shows success after save ([1c9b871](https://github.com/gasserandreas/webstream/commit/1c9b871beab4a7d745783ecb59232dd8706609d6)), closes [#33](https://github.com/gasserandreas/webstream/issues/33)
+
 ## [1.3.3](https://github.com/gasserandreas/webstream/compare/v1.3.2...v1.3.3) (2021-01-03)
 
 
