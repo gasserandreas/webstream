@@ -11,16 +11,18 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Switch from '@material-ui/core/Switch';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import { createStyles, makeStyles } from '@material-ui/core';
 
 import Add from '@material-ui/icons/Add';
-
-import { createStyles, makeStyles } from '@material-ui/core';
+import DoneIcon from '@material-ui/icons/Done';
 
 import FormControl from '../../form-components/FormControl';
 import InputLabel from '../../form-components/InputLabel';
 import OrderList from '../../form-components/OrderList';
 
 import { LinkList } from '../../../entities/models';
+
+import useResetState from '../../../hooks/useResetState';
 
 import validationSchema from './validationSchema';
 
@@ -96,6 +98,11 @@ const useStyles = makeStyles((theme) =>
 const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
   const classes = useStyles();
 
+  const [showSuccess, setShowSuccess] = useResetState<boolean>({
+    initialState: false,
+    time: 5000,
+  });
+
   const initialValues = useMemo(() => {
     if (!data) {
       return initialState;
@@ -116,6 +123,9 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
             ({ value }) => Boolean(value) && value.length > 0
           ),
         };
+
+        // show save message
+        setShowSuccess(true);
 
         onSave(newValues);
       }}
@@ -256,9 +266,10 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                 color="primary"
                 variant="outlined"
                 onClick={submitForm}
-                disabled={disabled}
+                disabled={disabled || !!showSuccess}
+                endIcon={showSuccess && <DoneIcon />}
               >
-                Save
+                {showSuccess ? 'Saved' : 'Save'}
               </Button>
             </div>
           </Form>
