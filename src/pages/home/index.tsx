@@ -29,7 +29,7 @@ import {
 } from '../../entities/streams/selectors';
 
 import IFrame from '../../ui/iFrame';
-import Navigation from '../../ui/navigation';
+import Navigation, { NAVIGATION_WIDTH } from '../../ui/navigation';
 import NavItem from '../../ui/navigation/item';
 
 import { SETTINGS } from '../../constants/paths';
@@ -50,8 +50,8 @@ const useStyles = makeStyles(() =>
     frame: {
       position: 'absolute',
       top: 0,
-      left: 0,
       right: 0,
+      left: `${NAVIGATION_WIDTH - 2}px`,
       bottom: 0,
     },
   })
@@ -130,7 +130,7 @@ const IndexPage: FunctionComponent = () => {
   };
 
   return (
-    <div className={classes.wrapper} ref={wrapperRef}>
+    <div className={classes.wrapper}>
       <Navigation
         bottomElements={[
           <NavItem onClick={() => history.push(SETTINGS)}>
@@ -163,6 +163,7 @@ const IndexPage: FunctionComponent = () => {
           <div
             className={classes.frame}
             style={getOpacityStyles(shouldShowEven)}
+            ref={wrapperRef}
           >
             {(shouldRenderEven || shouldShowEven) && (
               <IFrame

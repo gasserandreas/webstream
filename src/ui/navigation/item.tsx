@@ -13,6 +13,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     icon: {
       margin: '0.25rem 0',
+      padding: '0.25rem',
     },
   })
 );
@@ -20,7 +21,7 @@ const useStyles = makeStyles(() =>
 const Item: FC<ItemProps> = ({ className, ...props }) => {
   const classes = useStyles();
 
-  const newClassName = className ? clsx(className, classes.icon) : className;
+  const newClassName = className ? clsx(className, classes.icon) : classes.icon;
 
   return <IconButton className={newClassName} {...props} />;
 };
