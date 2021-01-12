@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Formik, Form, FieldArray, getIn } from 'formik';
@@ -11,10 +11,15 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Switch from '@material-ui/core/Switch';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Collapse from '@material-ui/core/Collapse';
 import { createStyles, makeStyles } from '@material-ui/core';
 
 import Add from '@material-ui/icons/Add';
 import DoneIcon from '@material-ui/icons/Done';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+
+import SettingsImportExportForm from '../settings-import-export';
 
 import FormControl from '../../form-components/FormControl';
 import InputLabel from '../../form-components/InputLabel';
@@ -54,6 +59,16 @@ export const initialState: FormData = {
   ],
 };
 
+function convertValues(values: FormData): FormData {
+  const newValues = {
+    ...values,
+    links: values.links.filter(
+      ({ value }) => Boolean(value) && value.length > 0
+    ),
+  };
+  return newValues;
+}
+
 const useStyles = makeStyles((theme) =>
   createStyles({
     interval: {
@@ -92,11 +107,23 @@ const useStyles = makeStyles((theme) =>
       textAlign: 'right',
       marginBottom: '2rem',
     },
+    advancedSection: {
+      marginBottom: '2rem',
+    },
+    advancedSectionLabel: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'baseline',
+      cursor: 'pointer',
+      fontWeight: 700,
+    },
   })
 );
 
 const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
   const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
 
   const [showSuccess, setShowSuccess] = useResetState<boolean>({
     initialState: false,
@@ -117,12 +144,7 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
       validationSchema={validationSchema}
       onSubmit={(values) => {
         // clean empty fields
-        const newValues = {
-          ...values,
-          links: values.links.filter(
-            ({ value }) => Boolean(value) && value.length > 0
-          ),
-        };
+        const newValues = convertValues(values);
 
         // show save message
         setShowSuccess(true);
@@ -257,6 +279,21 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                   );
                 }}
               </FieldArray>
+            </div>
+            <div className={classes.advancedSection}>
+              <InputLabel
+                className={classes.advancedSectionLabel}
+                onClick={() => setOpen((prev) => !prev)}
+              >
+                <span>Import / Export</span>
+                {open ? <ExpandLess /> : <ExpandMore />}
+              </InputLabel>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <SettingsImportExportForm
+                  data={convertValues(values)}
+                  disabled={disabled}
+                />
+              </Collapse>
             </div>
             <div className={classes.buttonGroup}>
               {/* <Button color="secondary" onClick={handleReset}>
