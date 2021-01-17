@@ -170,7 +170,6 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
 
   const handleOnDrop = useCallback(
     (acceptedFiles) => {
-      // console.log('onCallback');
       if (acceptedFiles.length === 0 || acceptedFiles.length > 1) return;
 
       const file = acceptedFiles[0];
@@ -225,7 +224,6 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
         onSave(newValues);
       }}
     >
-      {/* {({ submitForm, handleChange, values, handleReset, errors }) => { */}
       {({
         submitForm,
         validateForm,
@@ -281,7 +279,6 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                   Use random order
                 </InputLabel>
               }
-              disabled
             >
               <Switch
                 id={InputValues.RANDOM}
@@ -289,7 +286,6 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                 onChange={handleChange}
                 value={values.random}
               />
-              <FormHelperText>(not yet implemented)</FormHelperText>
             </FormControl>
             <div className={classes.linksSection}>
               <InputLabel>Links</InputLabel>

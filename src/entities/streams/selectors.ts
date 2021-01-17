@@ -6,6 +6,8 @@ import { StreamsState, ActiveFrame } from './index';
 import {
   settingsStreamsByIdSelector,
   settingsStreamsOrderedSelector,
+  settingsStreamsRandomOrderedSelector,
+  settingsIsRandomOrderSelector,
 } from '../settings/selectors';
 
 export const streamsSelector = (state: RootState): StreamsState =>
@@ -53,6 +55,17 @@ export const orderedStreamsSelector = createSelector(
   settingsStreamsByIdSelector,
   settingsStreamsOrderedSelector,
   (byId, orderedIds) => orderedIds.map((id) => byId[id])
+);
+
+export const settingsStreamsOrderedListSelector = createSelector(
+  settingsStreamsOrderedSelector,
+  settingsStreamsRandomOrderedSelector,
+  settingsStreamsByIdSelector,
+  settingsIsRandomOrderSelector,
+  (orderedIds, randomOrdered, byId, isRandom) => {
+    const ids = isRandom ? randomOrdered : orderedIds;
+    return ids.map((id) => byId[id]);
+  }
 );
 
 export const evenStreamSelector = createSelector(

@@ -14,13 +14,19 @@ import { settingsMetaLastSavedSelector } from '../../entities/settings/selectors
 
 export const HEADER_SIZE = 40;
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     header: {
       height: `${HEADER_SIZE}px`,
       display: 'flex',
       justifyContent: 'space-between',
       padding: '0.5rem',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: theme.palette.background.default,
+      zIndex: 100,
     },
     leftSide: {},
     rightSide: {},
