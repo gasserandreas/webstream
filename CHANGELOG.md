@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/gasserandreas/webstream/compare/v1.7.0...v1.7.1) (2021-01-17)
+
+
+### Bug Fixes
+
+* **#41:** changed navigation color ([a5f60f6](https://github.com/gasserandreas/webstream/commit/a5f60f62e3adf237f1b950fcd047f62748a0f1ac)), closes [#41](https://github.com/gasserandreas/webstream/issues/41)
+
 # [1.7.0](https://github.com/gasserandreas/webstream/compare/v1.6.0...v1.7.0) (2021-01-17)
 
 
