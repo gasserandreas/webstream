@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/gasserandreas/webstream/compare/v1.5.1...v1.6.0) (2021-01-17)
+
+
+### Features
+
+* **#20:** added reset button ([5421731](https://github.com/gasserandreas/webstream/commit/5421731995b9c733a80471fddd39e5cd5b1f1549)), closes [#20](https://github.com/gasserandreas/webstream/issues/20)
+
 ## [1.5.1](https://github.com/gasserandreas/webstream/compare/v1.5.0...v1.5.1) (2021-01-17)
 
 
