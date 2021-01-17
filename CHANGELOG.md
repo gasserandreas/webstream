@@ -1,3 +1,11 @@
+# [1.5.0](https://github.com/gasserandreas/webstream/compare/v1.4.1...v1.5.0) (2021-01-17)
+
+
+### Features
+
+* **#17:** added download option ([4331fc1](https://github.com/gasserandreas/webstream/commit/4331fc1f16a5c69045e3e19cbb59bd0b6d9956d5)), closes [#17](https://github.com/gasserandreas/webstream/issues/17)
+* **#17:** added settings import ([f1fae5c](https://github.com/gasserandreas/webstream/commit/f1fae5cae1280ecb5ea76dc45311d6abc0da6f81)), closes [#17](https://github.com/gasserandreas/webstream/issues/17)
+
 ## [1.4.1](https://github.com/gasserandreas/webstream/compare/v1.4.0...v1.4.1) (2021-01-04)
 
 
