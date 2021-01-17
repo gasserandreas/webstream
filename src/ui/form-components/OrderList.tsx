@@ -58,8 +58,8 @@ const useStyles = makeStyles((theme) =>
       display: 'flex',
       flexFlow: 'row',
       padding: '0.25rem 0',
-      minHeight: `${theme.spacing(9.25)}px`,
-      alignItems: 'baseline',
+      height: `${theme.spacing(7)}px`,
+      marginBottom: '1rem',
     },
     orderItems: {
       flexShrink: 0,
@@ -72,6 +72,10 @@ const useStyles = makeStyles((theme) =>
       flexGrow: 1,
       flexShrink: 1,
       cursor: 'pointer',
+    },
+    icons: {
+      height: '0.8em',
+      width: '0.8em',
     },
     removeItem: {
       flexShrink: 0,
@@ -115,7 +119,7 @@ const OrderList: FC<OrderListProps> = ({
                 disabled={i === 0}
                 size="small"
               >
-                <ArrowDropUpIcon />
+                <ArrowDropUpIcon className={classes.icons} />
               </IconButton>
               <IconButton
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
@@ -125,7 +129,7 @@ const OrderList: FC<OrderListProps> = ({
                 disabled={i === data.length - 1}
                 size="small"
               >
-                <ArrowDropDownIcon />
+                <ArrowDropDownIcon className={classes.icons} />
               </IconButton>
             </Box>
             <Box className={classes.children}>
