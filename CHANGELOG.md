@@ -1,3 +1,15 @@
+# [1.7.0](https://github.com/gasserandreas/webstream/compare/v1.6.0...v1.7.0) (2021-01-17)
+
+
+### Bug Fixes
+
+* **#18:** fixed minor settings style issue ([e2fb66e](https://github.com/gasserandreas/webstream/commit/e2fb66e497b1439614930281f993e2383d78ee10))
+
+
+### Features
+
+* **#18:** added support for random order ([72ba9a4](https://github.com/gasserandreas/webstream/commit/72ba9a44ea0b8456a8c92b82af625dd5c181c158)), closes [#18](https://github.com/gasserandreas/webstream/issues/18)
+
 # [1.6.0](https://github.com/gasserandreas/webstream/compare/v1.5.1...v1.6.0) (2021-01-17)
 
 
