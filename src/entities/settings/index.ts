@@ -10,6 +10,7 @@ import { removeIdItem, addIdItem } from './utils';
 
 // action constants
 const SET_SETTINGS = 'settings/setSettings';
+const RESET = 'settings/reset';
 
 const SET_TIME_INTERVAL = 'settings/setInterval';
 const SET_IS_RANDOM = 'settings/setIsRandom';
@@ -64,6 +65,8 @@ export const setSettings = createAction(
   }
 )<SetSettingsPayload>();
 
+export const reset = createAction(RESET)<void>();
+
 export const setTimeInterval = createAction(
   SET_TIME_INTERVAL,
   (time) => time
@@ -99,6 +102,7 @@ export const settingsActions = {
   setOrder,
   setSettings,
   setLastSaved,
+  reset,
 };
 
 export type SettingsAction = ActionType<typeof settingsActions>;
@@ -139,22 +143,26 @@ const timeIntervalReducer = createReducer<TimeIntervalState, SettingsAction>(
   .handleAction(
     settingsActions.setSettings,
     (_, action) => action.payload.interval
-  );
+  )
+  .handleAction(settingsActions.reset, () => timeIntervalInitialState);
 
 /**
  * random order reducer
  */
 type IsRandomOrderState = boolean;
 
+const isRandomOrderInitialState = false;
+
 const isRandomOrderStateReducer = createReducer<
   IsRandomOrderState,
   SettingsAction
->(false)
+>(isRandomOrderInitialState)
   .handleAction(settingsActions.setIsRandom, (_, action) => action.payload)
   .handleAction(
     settingsActions.setSettings,
     (_, action) => action.payload.isRandom
-  );
+  )
+  .handleAction(settingsActions.reset, () => isRandomOrderInitialState);
 
 /**
  * streams reducers
@@ -183,7 +191,8 @@ const byIdReducer = createReducer<StreamsByIdState, SettingsAction>(
   .handleAction(
     settingsActions.setSettings,
     (_, action) => action.payload.links.byId
-  );
+  )
+  .handleAction(settingsActions.reset, () => byIdReducerInitialState);
 
 type StreamsIdsState = Array<string>;
 
@@ -201,7 +210,8 @@ const idsReducer = createReducer<StreamsIdsState, SettingsAction>(
   .handleAction(
     settingsActions.setSettings,
     (_, action) => action.payload.links.ids
-  );
+  )
+  .handleAction(settingsActions.reset, () => idsReducerInitialState);
 
 type StreamsOrderedState = Array<string>;
 
@@ -220,7 +230,8 @@ const orderedReducer = createReducer<StreamsOrderedState, SettingsAction>(
   .handleAction(
     settingsActions.setSettings,
     (_, action) => action.payload.links.ordered
-  );
+  )
+  .handleAction(settingsActions.reset, () => orderedInitialState);
 
 type StreamState = {
   readonly byId: StreamsByIdState;

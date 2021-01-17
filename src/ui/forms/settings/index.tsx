@@ -29,7 +29,10 @@ import InputLabel from '../../form-components/InputLabel';
 import OrderList from '../../form-components/OrderList';
 
 import { LinkList } from '../../../entities/models';
-import { setSettings } from '../../../entities/settings';
+import {
+  setSettings,
+  reset as resetSettings,
+} from '../../../entities/settings';
 
 import useResetState from '../../../hooks/useResetState';
 
@@ -104,7 +107,7 @@ const useStyles = makeStyles((theme) =>
       justifyContent: 'flex-end',
 
       '& button': {
-        marginLeft: '0.5rem',
+        marginLeft: '1rem',
       },
     },
     linkErrorText: {
@@ -202,9 +205,6 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
     accept: 'application/json',
   });
 
-  // console.log({ initialValues });
-  // console.log({ data });
-
   return (
     <Formik
       enableReinitialize
@@ -228,6 +228,7 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
         values,
         errors,
         setFieldValue,
+        resetForm,
       }) => {
         setFieldRef.current = setFieldValue;
         const disabled = Object.values(errors).length > 0;
@@ -237,6 +238,12 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
 
         // console.log({ values });
         setFieldRef.current = setFieldValue;
+
+        const handleReset = () => {
+          resetForm();
+
+          dispatch(resetSettings());
+        };
 
         return (
           <Form>
@@ -384,9 +391,9 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
               </Collapse>
             </div>
             <div className={classes.buttonGroup}>
-              {/* <Button color="secondary" onClick={handleReset}>
+              <Button color="secondary" onClick={handleReset}>
                 Reset all
-              </Button> */}
+              </Button>
               <Button
                 color="primary"
                 variant="outlined"
