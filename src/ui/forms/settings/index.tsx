@@ -8,7 +8,6 @@ import ProgressEvent from 'react-dropzone/typings/react-dropzone';
 
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -93,9 +92,15 @@ const useStyles = makeStyles((theme) =>
       flexFlow: 'row',
       justifyContent: 'flex-end',
       alignItems: 'center',
-      marginTop: '-1rem',
     },
-    addButton: {
+    addLink: {
+      display: 'flex',
+      '&&:hover': {
+        color: theme.palette.primary.main,
+        cursor: 'pointer',
+      },
+    },
+    addIcon: {
       marginLeft: '0.5rem',
     },
     buttonGroup: {
@@ -346,13 +351,13 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                         </FormHelperText>
                       )}
                       <Box className={classes.addWrapper}>
-                        <Typography>add another link</Typography>
-                        <IconButton
-                          className={classes.addButton}
+                        <Typography
+                          className={classes.addLink}
                           onClick={handleAdd}
                         >
-                          <Add />
-                        </IconButton>
+                          add another link
+                          <Add className={classes.addIcon} />
+                        </Typography>
                       </Box>
                     </>
                   );
