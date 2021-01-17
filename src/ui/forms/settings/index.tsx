@@ -206,9 +206,6 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
     accept: 'application/json',
   });
 
-  // console.log({ initialValues });
-  // console.log({ data });
-
   return (
     <Formik
       enableReinitialize
@@ -279,7 +276,6 @@ const SettingsForm: FC<SettingsFormProps> = ({ data, onSave }) => {
                 onChange={handleChange}
                 value={values.random}
               />
-              <FormHelperText>(not yet implemented)</FormHelperText>
             </FormControl>
             <div className={classes.linksSection}>
               <InputLabel>Links</InputLabel>

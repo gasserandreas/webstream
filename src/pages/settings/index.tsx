@@ -29,6 +29,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     wrapper: {
       position: 'relative',
+      paddingBottom: '2rem',
     },
     title: {
       marginTop: '1rem',
