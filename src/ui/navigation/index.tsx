@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) =>
       bottom: 0,
       width: `${NAVIGATION_WIDTH}px`,
       zIndex: 1,
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.background.default,
       display: 'flex',
       flexFlow: 'column',
       padding: '0.5rem 0.25rem',
