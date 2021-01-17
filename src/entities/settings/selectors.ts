@@ -36,10 +36,15 @@ export const settingsStreamsOrderedSelector = createSelector(
   ({ ordered }) => ordered
 );
 
+export const settingsStreamsRandomOrderedSelector = createSelector(
+  settingsStreamsSelector,
+  ({ randomOrdered }) => randomOrdered
+);
+
 export const settingsStreamsOrderedListSelector = createSelector(
-  settingsStreamsOrderedSelector,
   settingsStreamsByIdSelector,
-  (orderedIds, byId) => orderedIds.map((id) => byId[id])
+  settingsStreamsOrderedSelector,
+  (byId, orderedIds) => orderedIds.map((id) => byId[id])
 );
 
 export const settingsMetaSelector = createSelector(

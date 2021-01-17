@@ -6,7 +6,7 @@ import { createAction, ActionType, createReducer } from 'typesafe-actions';
 import { map } from 'rxjs/operators';
 
 import { Link, Id } from '../models';
-import { removeIdItem, addIdItem } from './utils';
+import { removeIdItem, addIdItem, shuffleItems } from './utils';
 
 // action constants
 const SET_SETTINGS = 'settings/setSettings';
@@ -222,16 +222,34 @@ const orderedReducer = createReducer<StreamsOrderedState, SettingsAction>(
     (_, action) => action.payload.links.ordered
   );
 
+const randomOrderInitialState: Array<string> = [];
+
+const randomOrderedReducer = createReducer<StreamsOrderedState, SettingsAction>(
+  randomOrderInitialState
+)
+  .handleAction(settingsActions.addStream, (state, action) =>
+    shuffleItems(addIdItem(state, action.payload.id))
+  )
+  .handleAction(settingsActions.removeStream, (state, action) =>
+    shuffleItems(removeIdItem(state, action.payload))
+  )
+  .handleAction(settingsActions.setSettings, (_, action) =>
+    shuffleItems(action.payload.links.ordered)
+  )
+  .handleAction(settingsActions.setIsRandom, (state) => shuffleItems(state));
+
 type StreamState = {
   readonly byId: StreamsByIdState;
   readonly ids: StreamsIdsState;
   readonly ordered: StreamsOrderedState;
+  readonly randomOrdered: StreamsOrderedState;
 };
 
 const streamsReducer = combineReducers<StreamState, SettingsAction>({
   byId: byIdReducer,
   ids: idsReducer,
   ordered: orderedReducer,
+  randomOrdered: randomOrderedReducer,
 });
 
 /**
