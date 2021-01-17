@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/gasserandreas/webstream/compare/v1.5.0...v1.5.1) (2021-01-17)
+
+
+### Bug Fixes
+
+* **#41:** improved settings styles ([d5ef449](https://github.com/gasserandreas/webstream/commit/d5ef4499818746578a1802ccba8e7aee89cf0f90)), closes [#41](https://github.com/gasserandreas/webstream/issues/41)
+
 # [1.5.0](https://github.com/gasserandreas/webstream/compare/v1.4.1...v1.5.0) (2021-01-17)
 
 
