@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/gasserandreas/webstream/compare/v1.7.1...v1.8.0) (2021-01-18)
+
+
+### Features
+
+* **#19:** added drag n drop sorting ([fa654e4](https://github.com/gasserandreas/webstream/commit/fa654e45767c01c5b4012e0ff017543e380200a1)), closes [#19](https://github.com/gasserandreas/webstream/issues/19)
+
 ## [1.7.1](https://github.com/gasserandreas/webstream/compare/v1.7.0...v1.7.1) (2021-01-17)
 
 
