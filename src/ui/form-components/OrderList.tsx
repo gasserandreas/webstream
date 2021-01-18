@@ -1,5 +1,12 @@
 import React, { FC, ReactNode } from 'react';
 
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from 'react-beautiful-dnd';
+
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import List, { ListProps } from '@material-ui/core/List';
@@ -39,27 +46,36 @@ interface OrderListProps extends OrderListBaseProps {
     attrs: OrderListDataItem
   ) => ReactNode;
   onMove: (
-    e: React.MouseEvent<HTMLButtonElement>,
+    e: React.MouseEvent<HTMLButtonElement> | null,
     i: number,
     nextIndex: number,
     data?: OrderListDataItem
   ) => void;
   onDelete: (
-    e: React.MouseEvent<HTMLButtonElement>,
+    e: React.MouseEvent<HTMLButtonElement> | null,
     i: number,
     data?: OrderListDataItem
   ) => void;
   // onChange?: ActionHandler; // override default onChange
 }
 
+interface StyleProps {
+  numberOfItems: number;
+}
+
+const LIST_ITEM_HEIGHT = 82;
+
 const useStyles = makeStyles((theme) =>
   createStyles({
+    list: (props: StyleProps) => ({
+      height: `${props.numberOfItems * LIST_ITEM_HEIGHT}px`,
+    }),
     listItem: {
       display: 'flex',
       flexFlow: 'row',
-      padding: '0.25rem 0',
+      padding: '0',
       height: `${theme.spacing(7)}px`,
-      marginBottom: '1rem',
+      // marginBottom: '1rem',
     },
     orderItems: {
       flexShrink: 0,
@@ -101,54 +117,94 @@ const OrderList: FC<OrderListProps> = ({
   onDelete,
   ...props
 }) => {
-  const classes = useStyles();
+  const classes = useStyles({ numberOfItems: data.length });
+
+  const handleOnDragEnd = (result: DropResult) => {
+    if (!result) {
+      return;
+    }
+
+    const { destination, source } = result;
+
+    if (!destination || !source) {
+      return;
+    }
+
+    onMove(null, source.index, destination.index);
+  };
 
   return (
-    <List {...props}>
-      {data.map((dataItem: OrderListDataItem, i) => {
-        const { id, value } = dataItem;
-        const key = `list-item-${i}`;
-        return (
-          <ListItem className={classes.listItem} key={key}>
-            <Box className={classes.orderItems}>
-              <IconButton
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                  onMove(e, i, i - 1, dataItem)
-                }
-                className={classes.orderItemIcon}
-                disabled={i === 0}
-                size="small"
-              >
-                <ArrowDropUpIcon className={classes.icons} />
-              </IconButton>
-              <IconButton
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                  onMove(e, i, i + 1, dataItem)
-                }
-                className={classes.orderItemIcon}
-                disabled={i === data.length - 1}
-                size="small"
-              >
-                <ArrowDropDownIcon className={classes.icons} />
-              </IconButton>
-            </Box>
-            <Box className={classes.children}>
-              {children(id, value, i, dataItem)}
-            </Box>
-            <Box className={classes.removeItem}>
-              <IconButton
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                  onDelete(e, i, dataItem)
-                }
-                color="secondary"
-              >
-                <DeleteOutline />
-              </IconButton>
-            </Box>
-          </ListItem>
-        );
-      })}
-    </List>
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <Droppable droppableId="list">
+        {(provided) => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            <List {...props} className={classes.list}>
+              {data.map((dataItem: OrderListDataItem, i) => {
+                const { id, value } = dataItem;
+                // const key = `list-item-${i}`;
+                return (
+                  <Draggable draggableId={id} index={i} key={id}>
+                    {(innerProvided) => (
+                      <div
+                        ref={innerProvided.innerRef}
+                        {...innerProvided.draggableProps}
+                        {...innerProvided.dragHandleProps}
+                        style={{
+                          ...innerProvided.draggableProps.style,
+                          padding: '0.25rem 0',
+                          marginBottom: '1rem',
+                        }}
+                      >
+                        <span style={{ display: 'none' }}>
+                          {provided.placeholder}
+                        </span>
+                        <ListItem className={classes.listItem}>
+                          <Box className={classes.orderItems}>
+                            <IconButton
+                              onClick={(
+                                e: React.MouseEvent<HTMLButtonElement>
+                              ) => onMove(e, i, i - 1, dataItem)}
+                              className={classes.orderItemIcon}
+                              disabled={i === 0}
+                              size="small"
+                            >
+                              <ArrowDropUpIcon className={classes.icons} />
+                            </IconButton>
+                            <IconButton
+                              onClick={(
+                                e: React.MouseEvent<HTMLButtonElement>
+                              ) => onMove(e, i, i + 1, dataItem)}
+                              className={classes.orderItemIcon}
+                              disabled={i === data.length - 1}
+                              size="small"
+                            >
+                              <ArrowDropDownIcon className={classes.icons} />
+                            </IconButton>
+                          </Box>
+                          <Box className={classes.children}>
+                            {children(id, value, i, dataItem)}
+                          </Box>
+                          <Box className={classes.removeItem}>
+                            <IconButton
+                              onClick={(
+                                e: React.MouseEvent<HTMLButtonElement>
+                              ) => onDelete(e, i, dataItem)}
+                              color="secondary"
+                            >
+                              <DeleteOutline />
+                            </IconButton>
+                          </Box>
+                        </ListItem>
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
+            </List>
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
 
